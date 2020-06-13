@@ -4,7 +4,7 @@ import { Container, Header, Content, Form, Item, Input, Label, Button } from 'na
 import { AppLoading } from 'expo';
 import * as Font from 'expo-font';
 import { MyHeader } from '../sections/Header.js';
-import { ceil } from 'react-native-reanimated';
+import { MyButton } from '../sections/components/myButton';
 
 
 let customFonts = {
@@ -66,11 +66,7 @@ export default class Home extends React.Component {
                   <Input />
                 </Item>
 
-                <View style={styles.containerButton}>
-                    <Button style={styles.button} bordered onPress={this.saludo}>
-                        <Text style={styles.Textbutton}>Enviar</Text>
-                    </Button>
-                </View>
+                <MyButton action={this.saludo} message={"Enviar"}/>
 
               </Form>
             </View>
@@ -110,26 +106,10 @@ const styles = StyleSheet.create({
     containerTitle:{
         flex:2,
         justifyContent:"center"
-    },
-    button:{
-        width:"50%",
-        justifyContent:"center",
-        marginTop:40,
-        backgroundColor:"#f85b51",
-        borderStyle:"none",
-        borderRadius:15
-    },
-    Textbutton:{
-        fontSize:22,
-        color:"white",
-        fontWeight:500
-    },
-    containerButton:{
-        alignItems:"center"
-    },
+    },    
     label:{
         paddingLeft:5,
-        fontWeight:600
+        fontWeight:"600"
     },
     itemInput:{
         borderRadius:10        

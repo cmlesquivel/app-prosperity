@@ -153,7 +153,7 @@ const styles = StyleSheet.create({
     textButton:{
         color:"#4296f3",
         fontSize:20,
-        fontWeight:500
+        fontWeight:"500"
     },
     buttonWithdrawals:{
         borderColor:"#78aa17",
@@ -163,7 +163,7 @@ const styles = StyleSheet.create({
     textButtonWithdrawals:{
         color:"#78aa17",
         fontSize:20, 
-        fontWeight:500,
+        fontWeight:"500",
     },
     buttonDonate:{
         borderColor:"#e5574f",
@@ -175,13 +175,13 @@ const styles = StyleSheet.create({
         color:"#e5574f",
         color:"gray",
         fontSize:20, 
-        fontWeight:500,
+        fontWeight:"500",
     },
     textQuestion:{
         fontSize:20,
         color:"#00000094", 
         paddingLeft:30,
-        fontWeight:500
+        fontWeight:"500"
     },
     containerDisplay:{
         backgroundColor:"#8080801c",
@@ -195,7 +195,7 @@ const styles = StyleSheet.create({
         fontSize:42,
         textAlign:"right",
         paddingRight:30,
-        fontWeight:600,
+        fontWeight:"600",
         color:"#000000cf"
     }
     

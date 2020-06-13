@@ -84,37 +84,25 @@ const styles = StyleSheet.create({
         },
         image: {
           flex: 1,
-          resizeMode: "cover",
           justifyContent: "center",
-          // width:"90%",
-          // height:"40%",
-          // marginBottom:35,
           borderTopRightRadius:55,
           overflow: 'hidden',
           borderBottomLeftRadius:20
         },
         imageTouchable:{
           flex: 1,
-          // resizeMode: "cover",
-          // justifyContent: "center",
           width:"85%",
           height:"40%",
           marginBottom:35,
-          // borderTopRightRadius:55,
-          // overflow: 'hidden',
-          // borderBottomLeftRadius:20
         },
         text: {
           color: "white",
           fontSize: 25,
-          fontWeight: 500
+          fontWeight: "500"
         },
         ContainerImage:{
             flex:3,
-            alignItems:"center",
-            // borderTopRightRadius:55,
-            
-            // backgroundColor:"black"   
+            alignItems:"center"   
         },
         ContainerTitle:{
             flex:0.7,
@@ -124,14 +112,12 @@ const styles = StyleSheet.create({
             backgroundColor:"#000000ad",
             flex:1,
             justifyContent:"center",
-            alignItems:"center",
-            textAlign:"center"
-            // borderTopRightRadius:50,
+            alignItems:"center"
         },
         TextTitle:{
             textAlign:"center",
             fontSize:25,
-            fontWeight:600,
+            fontWeight:"600",
             color:"#0000008f"
           
         },

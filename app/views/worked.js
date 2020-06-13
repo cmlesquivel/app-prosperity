@@ -1,15 +1,15 @@
 import React from 'react';
-import { StyleSheet, View, Image, TouchableOpacity,TouchableHighlight  } from 'react-native';
-import { Container, ListItem, CheckBox,Content, Body, Text, Form, Item, Input, Label, Button } from 'native-base';
+import { StyleSheet, View, Image, TouchableOpacity,TouchableHighlight, Text  } from 'react-native';
+import { Container, ListItem, CheckBox,Content, Body, Form, Item, Input, Label, Button } from 'native-base';
 import { AppLoading } from 'expo';
 import * as Font from 'expo-font';
 import { MyHeader } from '../sections/Header.js';
-import { ceil } from 'react-native-reanimated';
+import { MyButton } from '../sections/components/myButton';
 
 
 let customFonts = {
     'Poppins-Medium': require('../../assets/fonts/Poppins-Medium.ttf'),
-    'Poppins-Regular': require('../../assets/fonts/Poppins-Regular.ttf'),    
+    'Poppins-Regular': require('../../assets/fonts/Poppins-Regular.ttf'),
   };
 
 export default class Home extends React.Component {
@@ -38,26 +38,29 @@ export default class Home extends React.Component {
         return (
             <Container style={styles.container}>
             <MyHeader/>
-            
+             
             <View style={styles.containerQuestion}>
                 <Text style={styles.textQuestion}>¿Necesitas un prestamo para?</Text>
             </View> 
 
-            {/* <TouchableHighlight onPress={this.saludo} style={styles.containerTouchable}> */}
+            
                 <View style={styles.containerOption}>
                     <View style={styles.containerList}>
                         <ListItem style={styles.listItem}>
                             <CheckBox checked={false} color="green" onPress={this.saludo} />
-                                <Body >
-                                    <Text>Moto</Text>
-                                </Body>
+                                <Body>
+                                    <Text style={styles.textProduct}>Moto</Text>
+                                </Body>                                
                         </ListItem>
                     </View>
                     <View style={styles.containerText}>
-                        <Text>$ ___________</Text>
+                        <View style={styles.rectangleGray}>
+                            <Text style={styles.textSign}>$</Text>
+                            <Text style = {styles.textValue}> ________</Text>
+                        </View>
                     </View>
                 </View>
-            {/* </TouchableHighlight>         */}
+            
 
             
                 <View style={styles.containerOption}>
@@ -65,40 +68,38 @@ export default class Home extends React.Component {
                         <ListItem style={styles.listItem}>
                             <CheckBox checked={true} color="green" />
                                 <Body >
-                                    <Text>Pase</Text>
+                                    <Text style={styles.textProduct}>Pase</Text>
                                 </Body>
                         </ListItem>
                     </View>
                     <View style={styles.containerText}>
-                        <Text style = {styles.textUnderline}>$ 300.0000</Text>
+                        <View style={styles.rectangleGray}>
+                            <Text style={styles.textSign}>$</Text>
+                            <Text style = {styles.textValue}>300.000</Text>
+                        </View>
                     </View>
                 </View>
 
                 <View style={styles.containerOption}>
                     <View style={styles.containerList}>
                         <ListItem style={styles.listItem}>
-                            <CheckBox checked={true} color="white" />
+                            <CheckBox checked={true} color="transparent" disabled />
                                 <Body > 
-                                    <Text>Total</Text>
+                                    <Text style={styles.textProductTotal}>Total</Text>
                                </Body>
                         </ListItem>
                     </View>
                     <View style={styles.containerText}>
-                        <Text style = {styles.textUnderline}>$ 300.000</Text>
+                        <View style={styles.rectangleGray}>
+                            <Text style={styles.textSignTotal}>$</Text>
+                            <Text style = {styles.textTotal}>300.000</Text>
+                        </View>
                     </View>
                 </View>
 
-                <View style = {styles.containerButton}>
-                    <Button style = {styles.button} bordered onPress={this.saludo}>
-                        <Text style = {styles.Textbutton}>Solicitar Prestamo</Text>
-                    </Button>
-                </View>
+                <MyButton message = "Solicitar Prestamo" action = {this.saludo}/>
 
-                {/* <View style = {styles.containerButton}>
-                    <Button style = {styles.button} bordered onPress={this.saludo}>
-                        <Text style = {styles.Textbutton}>Terminos y condiciones</Text>
-                    </Button>
-                </View> */}
+               
           </Container>     
         )
         }
@@ -110,61 +111,73 @@ export default class Home extends React.Component {
 
 const styles = StyleSheet.create({
     container:{
-        flex:1
+        flex:1,
     }, 
     textQuestion:{
-        fontSize:23,
+        fontSize:20,
         color:"#00000094", 
-        paddingLeft:30,
-        fontWeight:600
+        textAlign:"center",
+        fontFamily:"Poppins-Medium"
     },
     containerOption:{
         flexDirection:"row",
-        // flex:0.6,
-        // justifyContent:"center"
-        marginLeft:"10%"
+        width:"80%",
+        margin:"auto",
+        flex:0.3
     },
     containerTouchable:{
         flex:0.6
     },
     containerText:{
         justifyContent:"center",
-        flex:1
+        flex:1,
     },
     listItem:{
-        border:"none",
         borderColor:"red",
         borderBottomWidth:0
     },
     containerQuestion:{
-        flex:0.2,
+        flex:0.4,
         justifyContent:"center"
     },
     containerList:{
         justifyContent:"center",
         flex:1
     },
-    Textbutton:{
-        fontSize:20,
-        color:"white",
-        fontWeight:"500"
+    textValue:{      
+        textAlign:"center",
+        flex:0.7
     },
-    containerButton:{
-        alignItems:"center",
-        flex:1
+    textTotal:{      
+        textAlign:"center",
+        flex:0.7,
+        fontWeight:"600"
     },
-    button:{
+    rectangleGray:{
+        backgroundColor:"#00000036",
+        paddingTop:7,
+        paddingBottom:7,
+        borderRadius:7,
         width:"80%",
-        justifyContent:"center",
-        marginTop:40,
-        backgroundColor:"#f85b51",
-        borderStyle:"none",
-        borderRadius:15
+        flexDirection:"row",
     },
-    textUnderline:{
-        textDecorationLine:"underline",
-    }
-    
+    textProduct:{
+        paddingLeft:20,
+        fontFamily:"Poppins-Regular"
+    },
+    textProductTotal:{
+        paddingLeft:20,
+        fontWeight:"600"
+    },
+    textSign:{
+        flex:0.3,
+        textAlign:"right"
+    },
+    textSignTotal:{
+        flex:0.3,
+        textAlign:"right",
+        fontWeight:"600"
+    }    
     
 
 });

@@ -1,6 +1,6 @@
 import React from 'react';
-import { StyleSheet, View, Image, TouchableOpacity, Alert } from 'react-native';
-import { Container, Header, Button, Left, Right, Body, Icon, Text } from 'native-base';
+import { StyleSheet, View, Image, TouchableOpacity, Alert, Text } from 'react-native';
+import { Container, Header, Button, Left, Right, Body, Icon } from 'native-base';
 import { AppLoading } from 'expo';
 import * as Font from 'expo-font';
 import { MyHeader } from '../sections/Header.js';

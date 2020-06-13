@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
-import { StyleSheet, Image } from 'react-native';
-import { Header, Button, Left, Right, Body, Icon, Text } from 'native-base';
+import { StyleSheet, Image, Text } from 'react-native';
+import { Header, Button, Left, Right, Body, Icon } from 'native-base';
 import { AppLoading } from 'expo';
 import * as Font from 'expo-font';
 
