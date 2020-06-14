@@ -43,7 +43,7 @@ export default class Home extends React.Component {
                 <Text style={styles.textQuestion}>¿Necesitas un prestamo para?</Text>
             </View> 
 
-            
+            <View style={styles.flexCenter}>
                 <View style={styles.containerOption}>
                     <View style={styles.containerList}>
                         <ListItem style={styles.listItem}>
@@ -60,26 +60,29 @@ export default class Home extends React.Component {
                         </View>
                     </View>
                 </View>
+            </View>
             
 
-            
-                <View style={styles.containerOption}>
-                    <View style={styles.containerList}>
-                        <ListItem style={styles.listItem}>
-                            <CheckBox checked={true} color="green" />
-                                <Body >
-                                    <Text style={styles.textProduct}>Pase</Text>
-                                </Body>
-                        </ListItem>
-                    </View>
-                    <View style={styles.containerText}>
-                        <View style={styles.rectangleGray}>
-                            <Text style={styles.textSign}>$</Text>
-                            <Text style = {styles.textValue}>300.000</Text>
+                <View style={styles.flexCenter}>
+                    <View style={styles.containerOption}>
+                        <View style={styles.containerList}>
+                            <ListItem style={styles.listItem}>
+                                <CheckBox checked={true} color="green" />
+                                    <Body >
+                                        <Text style={styles.textProduct}>Pase</Text>
+                                    </Body>
+                            </ListItem>
+                        </View>
+                        <View style={styles.containerText}>
+                            <View style={styles.rectangleGray}>
+                                <Text style={styles.textSign}>$</Text>
+                                <Text style = {styles.textValue}>300.000</Text>
+                            </View>
                         </View>
                     </View>
                 </View>
 
+            <View style={styles.flexCenter}>
                 <View style={styles.containerOption}>
                     <View style={styles.containerList}>
                         <ListItem style={styles.listItem}>
@@ -96,9 +99,10 @@ export default class Home extends React.Component {
                         </View>
                     </View>
                 </View>
-
-                <MyButton message = "Solicitar Prestamo" action = {this.saludo}/>
-
+            </View>
+                <View style={styles.containerButton}>
+                    <MyButton message = "Solicitar Prestamo" action = {this.saludo}/>
+                </View>
                
           </Container>     
         )
@@ -122,8 +126,6 @@ const styles = StyleSheet.create({
     containerOption:{
         flexDirection:"row",
         width:"80%",
-        margin:"auto",
-        flex:0.3
     },
     containerTouchable:{
         flex:0.6
@@ -177,6 +179,15 @@ const styles = StyleSheet.create({
         flex:0.3,
         textAlign:"right",
         fontWeight:"600"
+    },
+    containerButton:{
+        alignItems:"center",
+        flex:1
+    },
+    flexCenter:{
+        alignItems:"center",
+        flex:0.3,
+        justifyContent:"center"
     }    
     
 

@@ -11,7 +11,7 @@ let customFonts = {
   };
 
 
-export class MyButton extends React.Component {    
+export class ButtonRounded extends React.Component {    
     
     state = {
         fontsLoaded: false,
@@ -49,13 +49,13 @@ export class MyButton extends React.Component {
 }
 
 // validar el tipo de parametro -- tipado de informacion que recibimos
-MyButton.propTypes = {
+ButtonRounded.propTypes = {
     message: PropTypes.string.isRequired,
     action: PropTypes.func,
 };
 
 // valores por defecto de los parametros no obligatorios
-MyButton.defaultProps = {
+ButtonRounded.defaultProps = {
     action: () => null,
 };
 
@@ -63,24 +63,21 @@ MyButton.defaultProps = {
 const styles = StyleSheet.create({
     Textbutton:{
         fontSize:18,
-        color:"white",
+        color:"#4296f3",
         fontFamily:"Poppins-Regular",
         textAlign:"center"
     },
     button:{
         width:"100%",
-        marginTop:20,
-        backgroundColor:"#f85b51",
-        borderRadius:10,
-        borderWidth:0,
-        marginBottom:20,
+        borderRadius:50,
+        borderWidth:1,
         paddingTop:8,
-        paddingBottom:8
+        paddingBottom:8,
+        borderColor:"#4296f3"
     },
     containerButton:{
         width:"60%",
         alignItems:"center",
-        borderWidth:0
     }
 })
 

@@ -11,7 +11,7 @@ export default class Splash extends React.Component {
     componentDidMount(){
         setTimeout(()=> {
             this.goToScreen('Home')
-        },3000, this)
+        },2000, this)
     }
 
     render(){

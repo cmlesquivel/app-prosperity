@@ -4,7 +4,8 @@ import { Container, Header, Content, Form, Item, Input, Label, Button } from 'na
 import { AppLoading } from 'expo';
 import * as Font from 'expo-font';
 import { MyHeader } from '../sections/Header.js';
-import { ceil } from 'react-native-reanimated';
+import { ButtonRounded } from '../sections/components/ButtonRounded';
+
 
 
 let customFonts = {
@@ -38,16 +39,19 @@ export default class Home extends React.Component {
         return (
             <Container style={styles.container}>
             <MyHeader/>
+
             <View style={styles.containerQuestion}>
                 <Text style={styles.textQuestion}>Mis rendimientos</Text>
             </View>
 
-            <View style={styles.containerDisplay}>
-                <View style={styles.Display}>
-                    <Text style={styles.textDisplay}>$ 215.268</Text>
+            <View style={styles.containerFlex}>
+                <View style={styles.containerDisplay}>
+                    <View style={styles.Display}>
+                        <Text style={styles.textDisplay}>$ 215.268</Text>
+                    </View>
                 </View>
-
             </View>
+
             <View style={styles.containerQuestion}>
                 <Text style={styles.textQuestion}>¿Que deseas hacer?</Text>
             </View>
@@ -59,14 +63,12 @@ export default class Home extends React.Component {
                     <View style={styles.containerImage}>
                         <Image
                             style={styles.imageOption}
-                            source={require('../sections/img/anadir.svg')}
+                            source={require('../sections/img/anadir.png')}
                         />
                     </View>
                     
                     <View style={styles.containerButton}>
-                        <Button rounded bordered style={styles.button}>
-                            <Text style={styles.textButton}>Invertir</Text>
-                        </Button>
+                         <ButtonRounded action={this.saludo} message={"Invertir"}/>
                     </View>
 
                 </View>
@@ -76,14 +78,12 @@ export default class Home extends React.Component {
                     <View style={styles.containerImage}>
                         <Image
                             style={styles.imageOption}
-                            source={require('../sections/img/retirar.svg')}
+                            source={require('../sections/img/retirar.png')}
                         />
                     </View>
 
-                    <View style={styles.containerButton}>
-                        <Button rounded bordered style={styles.buttonWithdrawals }>
-                            <Text style={styles.textButtonWithdrawals}>Retirar</Text>
-                        </Button>
+                    <View style={styles.containerButton}>                       
+                        <ButtonRounded action={this.saludo} message={"Retirar"}/>
                     </View>
 
                 </View>
@@ -93,14 +93,12 @@ export default class Home extends React.Component {
                     <View style={styles.containerImage}>
                         <Image
                             style={styles.imageOption}
-                            source={require('../sections/img/mano.svg')}
+                            source={require('../sections/img/mano.png')}
                         />
                     </View>
 
                     <View style={styles.containerButton}>
-                        <Button rounded bordered disabled style={styles.buttonDonate }>
-                            <Text style={styles.textButtonDonate}>Donate</Text>
-                        </Button>
+                        <ButtonRounded action={this.saludo} message={"Donar"}/>
                     </View>
 
                 </View>
@@ -127,8 +125,8 @@ const styles = StyleSheet.create({
     containerOption:{
         flexDirection:"row",
         flex:0.6,
-        width:"80%",
-        margin:"auto"
+        width:"100%",
+        margin:"auto",
     },
     containerImage:{
         flex:1,
@@ -143,7 +141,7 @@ const styles = StyleSheet.create({
     },
     containerButton:{
         flex:2,
-        alignItems:"center"        
+        alignItems:"center",      
     },
     button:{
         width:"60%",
@@ -186,10 +184,10 @@ const styles = StyleSheet.create({
     containerDisplay:{
         backgroundColor:"#8080801c",
         width:"80%",
-        margin:"auto",
         height:100,
         justifyContent:"center",
-        borderRadius:20
+        borderRadius:20,
+
     },
     textDisplay:{
         fontSize:42,
@@ -197,6 +195,9 @@ const styles = StyleSheet.create({
         paddingRight:30,
         fontWeight:"600",
         color:"#000000cf"
+    },
+    containerFlex:{
+        alignItems:"center"
     }
     
     

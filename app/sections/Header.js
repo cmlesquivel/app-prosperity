@@ -1,6 +1,5 @@
 import React, { useState } from 'react';
-import { StyleSheet, Image, Text } from 'react-native';
-import { Header, Button, Left, Right, Body, Icon } from 'native-base';
+import { StyleSheet, Image, Text, View, TouchableOpacity } from 'react-native';
 import { AppLoading } from 'expo';
 import * as Font from 'expo-font';
 
@@ -27,13 +26,17 @@ export class MyHeader extends React.Component {
     render(){
         if (this.state.fontsLoaded) {
         return (
-            <Header style={styles.headStyle}>
-              <Left>
-                <Button transparent>
-                  <Icon style={styles.icono}  name='menu' />
-                </Button>
-              </Left>
-              <Body style={styles.headBody}>
+       
+            <View style={styles.headStyle}>
+            
+               <TouchableOpacity  style = {styles.containerButton}>
+                       <Image
+                        style={styles.imageMenu}
+                        source={require('./img/menu_gray.png')}
+                        /> 
+                </TouchableOpacity> 
+            
+              <View style={styles.headBody}>
                 <Image
                     style={styles.logoStyles}
                     source={require('./img/text-rappi.png')}
@@ -42,9 +45,8 @@ export class MyHeader extends React.Component {
                     style={styles.textLogo}>
                     prosperity
                 </Text>                
-              </Body>
-              <Right />
-            </Header>
+              </View>
+            </View>
         );
     }
     else {
@@ -64,17 +66,18 @@ const styles = StyleSheet.create({
         flexDirection:"row",
     },
     headStyle:{
-        paddingTop:5,
+        paddingTop:25,
         paddingBottom:5,
-        backgroundColor: '#f8f9fa',
-        flex:0.8,        
+        backgroundColor: '#f8f9fa',    
         borderBottomWidth:1,
         alignItems:"center",
-        borderBottomColor:"#00000026"
+        borderBottomColor:"#00000026",
+        flexDirection:"row"
     },
     logoStyles:{
         width:80,
-        height:34
+        height:34,
+        marginLeft:10
     },
     textLogo:{
         fontSize:23,
@@ -83,11 +86,21 @@ const styles = StyleSheet.create({
         letterSpacing:-2,
         textShadowColor: '#00000014',
         textShadowOffset: {width: 1, height: 1},
-        textShadowRadius: 1
+        textShadowRadius: 1,
+        marginRight:10
     },
     icono:{
-        color:"black"
-    }    
+        color:"#000000ab"
+    },
+  containerButton:{
+      width:50,
+      paddingLeft:20,
+      paddingRight:10
+  },  
+  imageMenu:{
+    width:25,
+    height:24
+  }
 });
 
 

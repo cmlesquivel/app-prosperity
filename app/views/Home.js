@@ -1,6 +1,5 @@
 import React from 'react';
-import { StyleSheet, View, Image, TouchableOpacity, Alert, Text } from 'react-native';
-import { Container, Header, Button, Left, Right, Body, Icon } from 'native-base';
+import { StyleSheet, View, Image, TouchableOpacity, Text } from 'react-native';
 import { AppLoading } from 'expo';
 import * as Font from 'expo-font';
 import { MyHeader } from '../sections/Header.js';
@@ -33,7 +32,7 @@ export default class Home extends React.Component {
     render(){
         if (this.state.fontsLoaded) {
         return (
-            <Container style={styles.container}>               
+            <View style={styles.container}>               
                 <MyHeader/> 
                     <View style={styles.containerMessage}>
                         <Text style={styles.message}>Te ayudamos a cumplir {"\n"} tus metas a la   {"\n"}velocidad de Rappi </Text>
@@ -56,7 +55,7 @@ export default class Home extends React.Component {
                             <Text style={styles.buttonText}>Facebook</Text>
                         </TouchableOpacity>
                     </View>
-            </Container>
+            </View>
         )
         }
         else {
