@@ -1,6 +1,5 @@
 import React from 'react';
-import { StyleSheet, View, Image, TouchableOpacity, Text } from 'react-native';
-import { Container, Header, Content, Form, Item, Input, Label, Button } from 'native-base';
+import { StyleSheet, View, Image,  Text } from 'react-native';
 import { AppLoading } from 'expo';
 import * as Font from 'expo-font';
 import { MyHeader } from '../sections/Header.js';
@@ -32,13 +31,18 @@ export default class Home extends React.Component {
         this.props.navigation.navigate('SelectProfile');
     }
 
+    backView= () => {
+        this.props.navigation.goBack();
+        console.log("atras")
+      }
+
 
 
     render(){
         if (this.state.fontsLoaded) {
         return (
-            <Container style={styles.container}>
-            <MyHeader/>
+            <View style={styles.container}>
+            <MyHeader iconMenu={"back"} action={this.backView}/>
 
             <View style={styles.containerQuestion}>
                 <Text style={styles.textQuestion}>Mis rendimientos</Text>
@@ -105,7 +109,7 @@ export default class Home extends React.Component {
            
 
                      
-          </Container>     
+          </View>     
         )
         }
         else {

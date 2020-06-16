@@ -1,5 +1,5 @@
 import React from 'react';
-import { StyleSheet, StatusBar, Text, View, Image } from 'react-native';
+import { StyleSheet, StatusBar, View  } from 'react-native';
 import * as Animatable from 'react-native-animatable'
 
 
@@ -11,7 +11,7 @@ export default class Splash extends React.Component {
     componentDidMount(){
         setTimeout(()=> {
             this.goToScreen('Home')
-        },2000, this)
+        },20, this)
     }
 
     render(){

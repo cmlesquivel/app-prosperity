@@ -1,6 +1,5 @@
 import React from 'react';
-import { StyleSheet, View,TextInput, Image, TouchableOpacity, Text } from 'react-native';
-// import { Container, Header, Content, Form, Item, Input, Label, Button } from 'native-base';
+import { StyleSheet, View,TextInput, Text } from 'react-native';
 import { AppLoading } from 'expo';
 import * as Font from 'expo-font';
 import { MyHeader } from '../sections/Header.js';
@@ -29,8 +28,11 @@ export default class Home extends React.Component {
 
       saludo= () => {
         this.props.navigation.navigate('SelectProfile');
-        // console.log("hello")
-    }
+      }
+
+      backView= () => {
+        this.props.navigation.goBack();
+      }
 
 
 
@@ -38,7 +40,7 @@ export default class Home extends React.Component {
         if (this.state.fontsLoaded) {
         return (
             <View style={styles.container}>
-            <MyHeader/>
+            <MyHeader iconMenu={"back"} action={this.backView}/>
 
             <View style={styles.containerTitle}>
                 <Text style={styles.title}>Datos Personales</Text>

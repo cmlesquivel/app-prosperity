@@ -34,6 +34,10 @@ export default class SelectMotorcicle extends React.Component {
         this.props.navigation.navigate('Worked');       
     }
 
+    backView= () => {
+        this.props.navigation.goBack();
+      }
+
 
 
     render(){
@@ -42,7 +46,7 @@ export default class SelectMotorcicle extends React.Component {
         return (
 
             <Container>
-                <MyHeader/>
+                <MyHeader iconMenu={"back"} action={this.backView}/>
                 
                 <View>
                     <Text style={styles.textQuestion}>¿Selecciona la moto a financiar?</Text>

@@ -1,6 +1,6 @@
 import React from 'react';
-import { StyleSheet, View, Image, TouchableOpacity,TouchableHighlight, Text  } from 'react-native';
-import { Container, ListItem, CheckBox,Content, Body, Form, Item, Input, Label, Button } from 'native-base';
+import { StyleSheet, View, Text  } from 'react-native';
+import { Container, ListItem, CheckBox, Body} from 'native-base';
 import { AppLoading } from 'expo';
 import * as Font from 'expo-font';
 import { MyHeader } from '../sections/Header.js';
@@ -31,13 +31,21 @@ export default class Home extends React.Component {
         this.props.navigation.navigate('SelectMotorcicle');
     }
 
+    goWorked= () => {
+        this.props.navigation.navigate('Worked');
+      }
+
+      backView= () => {
+        this.props.navigation.goBack();
+      }
+
 
 
     render(){
         if (this.state.fontsLoaded) {
         return (
             <Container style={styles.container}>
-            <MyHeader/>
+            <MyHeader iconMenu={"back"} action={this.backView}/>
              
             <View style={styles.containerQuestion}>
                 <Text style={styles.textQuestion}>¿Necesitas un prestamo para?</Text>

@@ -1,106 +1,148 @@
-import React, { useState } from 'react';
-import { StyleSheet, Image, Text, View, TouchableOpacity } from 'react-native';
-import { AppLoading } from 'expo';
-import * as Font from 'expo-font';
-
+import React, { useState } from "react";
+import { StyleSheet, Image, Text, View, TouchableOpacity } from "react-native";
+import { AppLoading } from "expo";
+import * as Font from "expo-font";
+import PropTypes from "prop-types"; //validar el tipo de dato de los parametros pasados al botton
 
 let customFonts = {
-    'Cursive-Sans': require('../../assets/fonts/CursiveSans.otf'),
-  };
+  "Cursive-Sans": require("../../assets/fonts/CursiveSans.otf"),
+};
 
 export class MyHeader extends React.Component {
-    state = {
-        fontsLoaded: false,
-      };
-    
-      async _loadFontsAsync() {
-        await Font.loadAsync(customFonts);
-        this.setState({ fontsLoaded: true });
-      }
+  state = {
+    fontsLoaded: false,
+  };
 
-      componentDidMount() {
-        this._loadFontsAsync();
-      }
+  async _loadFontsAsync() {
+    await Font.loadAsync(customFonts);
+    this.setState({ fontsLoaded: true });
+  }
 
-   
-    render(){
-        if (this.state.fontsLoaded) {
+  componentDidMount() {
+    this._loadFontsAsync();
+  }
+
+  render() {
+    var { iconMenu, action } = this.props;
+
+    if (this.state.fontsLoaded) {
+      if (iconMenu == "menu") {
         return (
-       
-            <View style={styles.headStyle}>
-            
-               <TouchableOpacity  style = {styles.containerButton}>
-                       <Image
-                        style={styles.imageMenu}
-                        source={require('./img/menu_gray.png')}
-                        /> 
-                </TouchableOpacity> 
-            
-              <View style={styles.headBody}>
-                <Image
-                    style={styles.logoStyles}
-                    source={require('./img/text-rappi.png')}
-                    />
-                <Text
-                    style={styles.textLogo}>
-                    prosperity
-                </Text>                
-              </View>
+          <View style={styles.headStyle}>
+            <TouchableOpacity onPress={action} style={styles.containerButton}>
+              <Image
+                style={styles.imageMenu}
+                source={require("./img/menu_gray.png")}
+              />
+            </TouchableOpacity>
+
+            <View style={styles.headBody}>
+              <Image
+                style={styles.logoStyles}
+                source={require("./img/text-rappi.png")}
+              />
+              <Text style={styles.textLogo}>prosperity</Text>
             </View>
+          </View>
         );
-    }
-    else {
-        return <AppLoading />;
+      } else if (iconMenu == "back") {
+        return (
+          <View style={styles.headStyle}>
+            <TouchableOpacity onPress={action} style={styles.containerButton}>
+              <Image
+                style={styles.imageMenu}
+                source={require("./img/back.png")}
+              />
+            </TouchableOpacity>
+
+            <View style={styles.headBody}>
+              <Image
+                style={styles.logoStyles}
+                source={require("./img/text-rappi.png")}
+              />
+              <Text style={styles.textLogo}>prosperity</Text>
+            </View>
+          </View>
+        );
+      } else {
+        return (
+          <View style={styles.headStyle}>
+            <TouchableOpacity style={styles.containerButton}>
+              <Image
+                style={styles.imageMenu}
+                source={require("./img/facebook.png")}
+              />
+            </TouchableOpacity>
+
+            <View style={styles.headBody}>
+              <Image
+                style={styles.logoStyles}
+                source={require("./img/text-rappi.png")}
+              />
+              <Text style={styles.textLogo}>prosperity</Text>
+            </View>
+          </View>
+        );
       }
-    }   
+    } else {
+      return <AppLoading />;
+    }
+  }
 }
 
+MyHeader.propTypes = {
+  iconMenu: PropTypes.string.isRequired,
+  action: PropTypes.func,
+};
+
+// valores por defecto de los parametros no obligatorios
+MyHeader.defaultProps = {
+  action: () => null,
+};
 
 const styles = StyleSheet.create({
-    headtext:{
-        textAlign:'right',
-        color:'#ffffff',
-        fontSize:20
-    },
-    headBody:{
-        flexDirection:"row",
-    },
-    headStyle:{
-        paddingTop:25,
-        paddingBottom:5,
-        backgroundColor: '#f8f9fa',    
-        borderBottomWidth:1,
-        alignItems:"center",
-        borderBottomColor:"#00000026",
-        flexDirection:"row"
-    },
-    logoStyles:{
-        width:80,
-        height:34,
-        marginLeft:10
-    },
-    textLogo:{
-        fontSize:23,
-        color:'#D4AF37',
-        fontFamily:"Cursive-Sans",
-        letterSpacing:-2,
-        textShadowColor: '#00000014',
-        textShadowOffset: {width: 1, height: 1},
-        textShadowRadius: 1,
-        marginRight:10
-    },
-    icono:{
-        color:"#000000ab"
-    },
-  containerButton:{
-      width:50,
-      paddingLeft:20,
-      paddingRight:10
-  },  
-  imageMenu:{
-    width:25,
-    height:24
-  }
+  headtext: {
+    textAlign: "right",
+    color: "#ffffff",
+    fontSize: 20,
+  },
+  headBody: {
+    flexDirection: "row",
+  },
+  headStyle: {
+    paddingTop: 25,
+    paddingBottom: 5,
+    backgroundColor: "#f8f9fa",
+    borderBottomWidth: 1,
+    alignItems: "center",
+    borderBottomColor: "#00000026",
+    flexDirection: "row",
+  },
+  logoStyles: {
+    width: 80,
+    height: 34,
+    marginLeft: 10,
+  },
+  textLogo: {
+    fontSize: 23,
+    color: "#D4AF37",
+    fontFamily: "Cursive-Sans",
+    letterSpacing: -2,
+    textShadowColor: "#00000014",
+    textShadowOffset: { width: 1, height: 1 },
+    textShadowRadius: 1,
+    marginRight: 10,
+  },
+  icono: {
+    color: "#000000ab",
+  },
+  containerButton: {
+    width: 50,
+    paddingLeft: 20,
+    paddingRight: 10,
+  },
+  imageMenu: {
+    width: 25,
+    height: 24,
+  },
 });
-
-

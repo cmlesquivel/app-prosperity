@@ -1,6 +1,5 @@
 import React, { useState } from 'react';
 import { StyleSheet, View, Text, TouchableOpacity  } from 'react-native';
-// import { Button } from 'native-base';
 import { AppLoading } from 'expo'; // importar una fuente
 import * as Font from 'expo-font'; // importar una fuente
 import PropTypes from 'prop-types'; //validar el tipo de dato de los parametros pasados al botton

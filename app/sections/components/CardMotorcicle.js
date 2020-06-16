@@ -1,6 +1,5 @@
 import React from 'react';
-import { StyleSheet, View, Image, TouchableOpacity,TouchableHighlight,ScrollView, Text  } from 'react-native';
-import { Container, Header, Content, Card, CardItem, Body, Button} from "native-base";
+import { StyleSheet, View, Image, TouchableOpacity,Text  } from 'react-native';
 import { AppLoading } from 'expo';
 import * as Font from 'expo-font';
 import PropTypes from 'prop-types'; //validar el tipo de dato de los parametros pasados
@@ -67,9 +66,15 @@ export class CardMotorcicle extends React.Component {
                                     <Text style={styles.Textvalue}> {precio}</Text>
                                 </Text>                                
                             </View>
-                            <Button style={styles.button} onPress={action}>
-                                    <Text style={styles.textButton}>Deseo financiar esta moto!</Text>
-                                </Button>
+
+                            <TouchableOpacity onPress={action}>
+                                <View style={styles.button}>
+                                    <Text 
+                                        style={styles.textButton}>Deseo financiar esta moto!
+                                    </Text>
+                                </View>
+                            </TouchableOpacity>
+
                         </View>
                 </View>
             </View>
@@ -158,7 +163,9 @@ const styles = StyleSheet.create({
         borderTopLeftRadius:0,
         borderTopRightRadius:0,
         backgroundColor:"#f85b51",
-        borderWidth:0
+        borderWidth:0,
+        paddingTop:6,
+        paddingBottom:6
     }
 
 
