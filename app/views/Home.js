@@ -1,5 +1,12 @@
 import React from "react";
-import { StyleSheet, View, Image, TouchableOpacity, Text } from "react-native";
+import {
+  StyleSheet,
+  View,
+  Image,
+  TouchableOpacity,
+  Text,
+  ImageBackground,
+} from "react-native";
 import { AppLoading } from "expo";
 import * as Font from "expo-font";
 import { MyHeader } from "../sections/Header.js";
@@ -23,41 +30,47 @@ export default class Home extends React.Component {
     this._loadFontsAsync();
   }
 
-  saludo = () => {
+  goRegister = () => {
     this.props.navigation.navigate("Register");
+  };
+
+  goLogin = () => {
+    this.props.navigation.navigate("Login");
   };
 
   render() {
     if (this.state.fontsLoaded) {
       return (
-        <View style={styles.container}>
+        <ImageBackground
+          source={require("../sections/img/screenWelcome.jpg")}
+          style={styles.container}
+        >
           <MyHeader iconMenu={"menu"} />
+
           <View style={styles.containerMessage}>
             <Text style={styles.message}>
               Te ayudamos a cumplir {"\n"} tus metas a la {"\n"}velocidad de
-              Rappi{" "}
+              <Text style={styles.textRappi}> Rappi</Text>{" "}
             </Text>
           </View>
+          <View style={styles.flexCenter}>
+            <View style={styles.containerButton}>
+              <TouchableOpacity
+                style={styles.buttonStylesLogin}
+                onPress={this.goLogin}
+              >
+                <Text style={styles.buttonText}>Sign In</Text>
+              </TouchableOpacity>
 
-          <View style={styles.containerImage}>
-            <Image
-              style={styles.images}
-              source={require("../sections/img/progreso.png")}
-            />
+              <TouchableOpacity
+                style={styles.buttonStylesRegister}
+                onPress={this.goRegister}
+              >
+                <Text style={styles.buttonText}>Registrarse</Text>
+              </TouchableOpacity>
+            </View>
           </View>
-
-          <View style={styles.containerButton}>
-            <Text style={styles.textSesion}>Iniciar sesión</Text>
-
-            <TouchableOpacity style={styles.buttonStyles} onPress={this.saludo}>
-              <Image
-                style={styles.logoFacebook}
-                source={require("../sections/img/facebook.png")}
-              />
-              <Text style={styles.buttonText}>Facebook</Text>
-            </TouchableOpacity>
-          </View>
-        </View>
+        </ImageBackground>
       );
     } else {
       return <AppLoading />;
@@ -71,31 +84,22 @@ const styles = StyleSheet.create({
     backgroundColor: "white",
   },
   containerMessage: {
-    flex: 3,
+    flex: 2.5,
     alignItems: "center",
     justifyContent: "center",
   },
   message: {
     textAlign: "center",
-    fontSize: 22,
+    fontSize: 20,
     fontWeight: "500",
     color: "#000000b3",
     lineHeight: 30,
     fontFamily: "Poppins-Medium",
+    letterSpacing: 1.5,
   },
-  containerImage: {
-    flex: 4,
-    alignItems: "center",
-  },
-  images: {
-    width: "60%",
-    height: "100%",
-    flex: 1,
-    resizeMode: "stretch",
-  },
-  buttonStyles: {
-    backgroundColor: "#5872a7",
-    width: "50%",
+  buttonStylesLogin: {
+    backgroundColor: "white",
+    width: "40%",
     borderRadius: 50,
     justifyContent: "center",
     alignItems: "center",
@@ -110,8 +114,28 @@ const styles = StyleSheet.create({
     shadowRadius: 1, //IOS
     elevation: 2, // Android
   },
+
+  buttonStylesRegister: {
+    // backgroundColor: "#5872a7",
+    backgroundColor: "#ffffff63",
+    width: "40%",
+    borderRadius: 50,
+    justifyContent: "center",
+    alignItems: "center",
+    paddingTop: 7,
+    paddingBottom: 7,
+    marginTop: 20,
+    flexDirection: "row",
+
+    shadowColor: "rgba(0,0,0, .35)", // IOS
+    shadowOffset: { height: 1, width: 1 }, // IOS
+    shadowOpacity: 1, // IOS
+    shadowRadius: 1, //IOS
+    elevation: 2, // Android
+  },
+
   buttonText: {
-    color: "#ffffff",
+    color: "#000000b8",
     fontSize: 18,
     fontFamily: "Poppins-Regular",
   },
@@ -123,12 +147,23 @@ const styles = StyleSheet.create({
   },
   containerButton: {
     alignItems: "center",
-    justifyContent: "center",
-    flex: 3,
+    justifyContent: "space-around",
+    flexDirection: "row",
+    width: "90%",
+    marginTop: 40,
   },
   logoFacebook: {
     width: 23,
     height: 23,
     marginRight: 10,
+  },
+  flexCenter: {
+    alignItems: "center",
+    flex: 3,
+    justifyContent: "center",
+  },
+  textRappi: {
+    color: "#ff0000d9",
+    fontFamily: "Poppins-Medium",
   },
 });

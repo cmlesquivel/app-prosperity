@@ -46,7 +46,7 @@ export default class Home extends React.Component {
     if (this.state.fontsLoaded) {
       return (
         <View style={styles.container}>
-          <MyHeader iconMenu={"back"} action={this.backView} />
+          <MyHeader iconMenu={"menu"} action={this.backView} />
 
           <View style={styles.ContainerTitle}>
             <Text style={styles.TextTitle}>Selecciona tu perfil</Text>

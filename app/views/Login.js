@@ -39,26 +39,11 @@ export default class Home extends React.Component {
           <MyHeader iconMenu={"back"} action={this.backView} />
 
           <View style={styles.containerTitle}>
-            <Text style={styles.title}>Registro</Text>
+            <Text style={styles.title}>Inicio de sesión</Text>
           </View>
-          <ScrollView>
+          <ScrollView style={{ flex: 7 }}>
             <View style={styles.containerMain}>
               <View style={styles.contentForm}>
-                <View style={styles.containerInput}>
-                  <Text style={styles.label}>Nombre</Text>
-                  <TextInput style={styles.input} />
-                </View>
-
-                <View style={styles.containerInput}>
-                  <Text style={styles.label}>Cédula</Text>
-                  <TextInput style={styles.input} />
-                </View>
-
-                <View style={styles.containerInput}>
-                  <Text style={styles.label}>Teléfono</Text>
-                  <TextInput style={styles.input} />
-                </View>
-
                 <View style={styles.containerInput}>
                   <Text style={styles.label}>Correo</Text>
                   <TextInput style={styles.input} />
@@ -70,7 +55,7 @@ export default class Home extends React.Component {
                 </View>
 
                 <View style={styles.containerButton}>
-                  <MyButton action={this.saludo} message={"Crear cuenta"} />
+                  <MyButton action={this.saludo} message={"Ingresar"} />
                 </View>
               </View>
             </View>

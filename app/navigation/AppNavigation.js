@@ -1,4 +1,4 @@
-import { createAppContainer } from "react-navigation";
+import { createAppContainer, createSwitchNavigator } from "react-navigation";
 import { createStackNavigator } from "react-navigation-stack";
 import { createDrawerNavigator } from "@react-navigation/drawer";
 import SplashScreen from "../views/Splash";
@@ -8,53 +8,83 @@ import SelectProfileScreen from "../views/SelectProfile";
 import InvestorScreen from "../views/Investor";
 import WorkedScreen from "../views/worked";
 import MotorcicleScreen from "../views/SelectMotorcicle";
+import LoginScreen from "../views/Login";
 
-const AppNavigation = createStackNavigator({
-  Splash: {
-    screen: SplashScreen,
-    navigationOptions: {
-      headerShown: false,
+const AppNavigation = createStackNavigator(
+  {
+    SelectProfile: {
+      screen: SelectProfileScreen,
+      navigationOptions: {
+        headerShown: false,
+      },
+    },
+    Investor: {
+      screen: InvestorScreen,
+      navigationOptions: {
+        headerShown: false,
+      },
+    },
+    Worked: {
+      screen: WorkedScreen,
+      navigationOptions: {
+        headerShown: false,
+      },
+    },
+    SelectMotorcicle: {
+      screen: MotorcicleScreen,
+      navigationOptions: {
+        headerShown: false,
+      },
     },
   },
-  Home: {
-    screen: HomeScreen,
-    navigationOptions: {
-      headerShown: false,
-    },
-  },
-  Register: {
-    screen: RegisterScreen,
-    navigationOptions: {
-      headerShown: false,
-    },
-  },
-  SelectProfile: {
-    screen: SelectProfileScreen,
-    navigationOptions: {
-      headerShown: false,
-    },
-  },
-  Investor: {
-    screen: InvestorScreen,
-    navigationOptions: {
-      headerShown: false,
-    },
-  },
-  Worked: {
-    screen: WorkedScreen,
-    navigationOptions: {
-      headerShown: false,
-    },
-  },
-  SelectMotorcicle: {
-    screen: MotorcicleScreen,
-    navigationOptions: {
-      headerShown: false,
-    },
-  },
-});
+  {
+    initialRouteName: "SelectProfile",
+  }
+);
 
-export default createAppContainer(AppNavigation);
+const LoginNavigation = createStackNavigator(
+  {
+    Home: {
+      screen: HomeScreen,
+      navigationOptions: {
+        headerShown: false,
+      },
+    },
+    Register: {
+      screen: RegisterScreen,
+      navigationOptions: {
+        headerShown: false,
+      },
+    },
+    Login: {
+      screen: LoginScreen,
+      navigationOptions: {
+        headerShown: false,
+      },
+    },
+  },
+  {
+    initialRouteName: "Home",
+  }
+);
+
+export default createAppContainer(
+  createSwitchNavigator(
+    {
+      auth: LoginNavigation,
+      app: AppNavigation,
+      splash: {
+        screen: SplashScreen,
+        navigationOptions: {
+          headerShown: false,
+        },
+      },
+    },
+    {
+      initialRouteName: "splash",
+    }
+  )
+);
 
 // const Drawer = createDrawerNavigator();
 
