@@ -41,7 +41,7 @@ export default class SelectMotorcicle extends React.Component {
     if (this.state.fontsLoaded) {
       return (
         <Container>
-          <MyHeader iconMenu={"back"} action={this.backView} />
+          <MyHeader iconMenu={false} action={this.backView} />
 
           <View>
             <Text style={styles.textQuestion}>

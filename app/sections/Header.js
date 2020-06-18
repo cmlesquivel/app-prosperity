@@ -23,67 +23,28 @@ export class MyHeader extends React.Component {
   }
 
   render() {
-    var { iconMenu, action } = this.props;
+    var { action, iconMenu } = this.props;
+
+    var icon = iconMenu
+      ? require("./img/menu_gray.png")
+      : require("./img/back.png");
 
     if (this.state.fontsLoaded) {
-      if (iconMenu == "menu") {
-        return (
-          <View style={styles.headStyle}>
-            <TouchableOpacity onPress={action} style={styles.containerButton}>
-              <Image
-                style={styles.imageMenu}
-                source={require("./img/menu_gray.png")}
-              />
-            </TouchableOpacity>
+      return (
+        <View style={styles.headStyle}>
+          <TouchableOpacity onPress={action} style={styles.containerButton}>
+            <Image style={styles.imageMenu} source={icon} />
+          </TouchableOpacity>
 
-            <View style={styles.headBody}>
-              <Image
-                style={styles.logoStyles}
-                source={require("./img/text-rappi.png")}
-              />
-              <Text style={styles.textLogo}>prosperity</Text>
-            </View>
+          <View style={styles.headBody}>
+            <Image
+              style={styles.logoStyles}
+              source={require("./img/text-rappi.png")}
+            />
+            <Text style={styles.textLogo}>prosperity</Text>
           </View>
-        );
-      } else if (iconMenu == "back") {
-        return (
-          <View style={styles.headStyle}>
-            <TouchableOpacity onPress={action} style={styles.containerButton}>
-              <Image
-                style={styles.imageMenu}
-                source={require("./img/back.png")}
-              />
-            </TouchableOpacity>
-
-            <View style={styles.headBody}>
-              <Image
-                style={styles.logoStyles}
-                source={require("./img/text-rappi.png")}
-              />
-              <Text style={styles.textLogo}>prosperity</Text>
-            </View>
-          </View>
-        );
-      } else {
-        return (
-          <View style={styles.headStyle}>
-            <TouchableOpacity style={styles.containerButton}>
-              <Image
-                style={styles.imageMenu}
-                source={require("./img/facebook.png")}
-              />
-            </TouchableOpacity>
-
-            <View style={styles.headBody}>
-              <Image
-                style={styles.logoStyles}
-                source={require("./img/text-rappi.png")}
-              />
-              <Text style={styles.textLogo}>prosperity</Text>
-            </View>
-          </View>
-        );
-      }
+        </View>
+      );
     } else {
       return <AppLoading />;
     }
@@ -91,7 +52,7 @@ export class MyHeader extends React.Component {
 }
 
 MyHeader.propTypes = {
-  iconMenu: PropTypes.string.isRequired,
+  iconMenu: PropTypes.bool.isRequired,
   action: PropTypes.func,
 };
 

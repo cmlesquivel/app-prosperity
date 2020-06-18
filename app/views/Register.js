@@ -36,7 +36,7 @@ export default class Home extends React.Component {
     if (this.state.fontsLoaded) {
       return (
         <View style={styles.container}>
-          <MyHeader iconMenu={"back"} action={this.backView} />
+          <MyHeader iconMenu={false} action={this.backView} />
 
           <View style={styles.containerTitle}>
             <Text style={styles.title}>Registro</Text>

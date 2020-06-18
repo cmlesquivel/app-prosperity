@@ -45,7 +45,7 @@ export default class Home extends React.Component {
           source={require("../sections/img/screenWelcome.jpg")}
           style={styles.container}
         >
-          <MyHeader iconMenu={"menu"} />
+          <MyHeader iconMenu={true} />
 
           <View style={styles.containerMessage}>
             <Text style={styles.message}>
@@ -63,7 +63,10 @@ export default class Home extends React.Component {
               </TouchableOpacity>
 
               <TouchableOpacity
-                style={styles.buttonStylesRegister}
+                style={[
+                  styles.buttonStylesLogin,
+                  { backgroundColor: "#ffffff63" },
+                ]}
                 onPress={this.goRegister}
               >
                 <Text style={styles.buttonText}>Registrarse</Text>
@@ -99,25 +102,6 @@ const styles = StyleSheet.create({
   },
   buttonStylesLogin: {
     backgroundColor: "white",
-    width: "40%",
-    borderRadius: 50,
-    justifyContent: "center",
-    alignItems: "center",
-    paddingTop: 7,
-    paddingBottom: 7,
-    marginTop: 20,
-    flexDirection: "row",
-
-    shadowColor: "rgba(0,0,0, .35)", // IOS
-    shadowOffset: { height: 1, width: 1 }, // IOS
-    shadowOpacity: 1, // IOS
-    shadowRadius: 1, //IOS
-    elevation: 2, // Android
-  },
-
-  buttonStylesRegister: {
-    // backgroundColor: "#5872a7",
-    backgroundColor: "#ffffff63",
     width: "40%",
     borderRadius: 50,
     justifyContent: "center",

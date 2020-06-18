@@ -14,7 +14,7 @@ export default class Splash extends React.Component {
   }
 
   getUser() {
-    if (true) {
+    if (false) {
       this.goToScreen("app");
     } else {
       this.goToScreen("auth");
