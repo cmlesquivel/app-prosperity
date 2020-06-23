@@ -22,12 +22,31 @@ export class MyHeader extends React.Component {
     this._loadFontsAsync();
   }
 
+  outsession = () => {
+    setTimeout(() => {
+      // let a = (
+      //   <Image
+      //     source={{
+      //       uri:
+      //         "https://encolombia.com/wp-content/uploads/2020/02/Colombia-696x398.jpg",
+      //     }}
+      //   />
+      // );
+
+      this.props.navigation.navigate("Home");
+    }, 300);
+  };
+
   render() {
-    var { action, iconMenu } = this.props;
+    var { action, iconMenu, sesion, outsession } = this.props;
 
     var icon = iconMenu
       ? require("./img/menu_gray.png")
       : require("./img/back.png");
+
+    var iconSesion = sesion
+      ? require("./img/sesion-1.png")
+      : require("./img/facebook.png");
 
     if (this.state.fontsLoaded) {
       return (
@@ -43,6 +62,9 @@ export class MyHeader extends React.Component {
             />
             <Text style={styles.textLogo}>prosperity</Text>
           </View>
+          <TouchableOpacity onPress={outsession} style={styles.containerSesion}>
+            <Image style={styles.logoSesion} source={iconSesion} />
+          </TouchableOpacity>
         </View>
       );
     } else {
@@ -54,11 +76,13 @@ export class MyHeader extends React.Component {
 MyHeader.propTypes = {
   iconMenu: PropTypes.bool.isRequired,
   action: PropTypes.func,
+  sesion: PropTypes.bool,
 };
 
 // valores por defecto de los parametros no obligatorios
 MyHeader.defaultProps = {
   action: () => null,
+  sesion: true,
 };
 
 const styles = StyleSheet.create({
@@ -71,7 +95,7 @@ const styles = StyleSheet.create({
     flexDirection: "row",
   },
   headStyle: {
-    paddingTop: 28,
+    paddingTop: 10,
     paddingBottom: 5,
     backgroundColor: "#f8f9fa",
     borderBottomWidth: 1,
@@ -82,6 +106,11 @@ const styles = StyleSheet.create({
   logoStyles: {
     width: 80,
     height: 34,
+    marginLeft: 10,
+  },
+  logoSesion: {
+    width: 30,
+    height: 30,
     marginLeft: 10,
   },
   textLogo: {
@@ -101,6 +130,12 @@ const styles = StyleSheet.create({
     width: 50,
     paddingLeft: 20,
     paddingRight: 10,
+  },
+  containerSesion: {
+    width: 50,
+    paddingLeft: 20,
+    marginLeft: 30,
+    // paddingRight: 10,
   },
   imageMenu: {
     width: 25,

@@ -25,7 +25,20 @@ export default class Home extends React.Component {
   }
 
   saludo = () => {
-    this.props.navigation.navigate("SelectProfile");
+    setTimeout(() => {
+      // let a = (
+      //   <Image
+      //     source={{
+      //       uri:
+      //         "https://encolombia.com/wp-content/uploads/2020/02/Colombia-696x398.jpg",
+      //     }}
+      //   />
+      // );
+
+      this.props.navigation.navigate("SelectProfile", {
+        name: "Paula Sanchez",
+      });
+    }, 300);
   };
 
   backView = () => {
@@ -36,7 +49,7 @@ export default class Home extends React.Component {
     if (this.state.fontsLoaded) {
       return (
         <View style={styles.container}>
-          <MyHeader iconMenu={false} action={this.backView} />
+          <MyHeader iconMenu={false} action={this.backView} sesion={false} />
 
           <View style={styles.containerTitle}>
             <Text style={styles.title}>Registro</Text>
@@ -51,21 +64,30 @@ export default class Home extends React.Component {
 
                 <View style={styles.containerInput}>
                   <Text style={styles.label}>Cédula</Text>
-                  <TextInput style={styles.input} />
+                  <TextInput style={styles.input} keyboardType="numeric" />
                 </View>
 
                 <View style={styles.containerInput}>
                   <Text style={styles.label}>Teléfono</Text>
-                  <TextInput style={styles.input} />
+                  <TextInput style={styles.input} keyboardType="numeric" />
                 </View>
 
                 <View style={styles.containerInput}>
                   <Text style={styles.label}>Correo</Text>
-                  <TextInput style={styles.input} />
+                  <TextInput
+                    style={styles.input}
+                    keyboardType="email-address"
+                    textContentType="emailAddress"
+                  />
                 </View>
 
                 <View style={styles.containerInput}>
                   <Text style={styles.label}>Contraseña</Text>
+                  <TextInput secureTextEntry style={styles.input} />
+                </View>
+
+                <View style={styles.containerInput}>
+                  <Text style={styles.label}>Repite contraseña</Text>
                   <TextInput secureTextEntry style={styles.input} />
                 </View>
 

@@ -13,6 +13,7 @@ let customFonts = {
 export default class Home extends React.Component {
   state = {
     fontsLoaded: false,
+    investor: [],
   };
 
   async _loadFontsAsync() {
@@ -22,21 +23,89 @@ export default class Home extends React.Component {
 
   componentDidMount() {
     this._loadFontsAsync();
+    const investor = require("../../assets/jsonFile/storage.json").investor;
+    this.setState({ investor });
   }
 
   saludo = () => {
     this.props.navigation.navigate("SelectProfile");
   };
 
+  goWithdrawal = () => {
+    this.props.navigation.navigate("Withdrawal");
+  };
+
+  goInvestments = () => {
+    this.props.navigation.navigate("Investments");
+  };
+
+  calcularRentabilidad = () => {
+    let miFechaActual = new Date();
+    let day_as_milliseconds = 86400000;
+
+    const formatterPeso = new Intl.NumberFormat("es-CO", {
+      style: "currency",
+      currency: "COP",
+      minimumFractionDigits: 0,
+    });
+
+    for (let i = 0; i < this.state.investor.length; i++) {
+      this.state.investor[i]["balanceTotal"] = 0;
+      for (let j = 0; j < this.state.investor[i]["investments"].length; j++) {
+        let miFechaPasada = new Date(
+          this.state.investor[i]["investments"][j]["date"]
+        );
+
+        let diff_in_millisenconds = miFechaActual - miFechaPasada;
+        let diff_in_days = diff_in_millisenconds / day_as_milliseconds;
+        let periodos = Math.trunc(
+          diff_in_days / this.state.investor[i]["investments"][j]["numberDays"]
+        );
+
+        this.state.investor[i]["investments"][j]["balance"] =
+          this.state.investor[i]["investments"][j]["amount"] *
+          Math.pow(
+            this.state.investor[i]["investments"][j]["profitability"],
+            periodos
+          );
+
+        this.state.investor[i]["balanceTotal"] += this.state.investor[i][
+          "investments"
+        ][j]["balance"];
+
+        this.state.investor[i]["investments"][j][
+          "balancePesos"
+        ] = formatterPeso.format(
+          this.state.investor[i]["investments"][j]["balance"]
+        );
+      }
+      this.state.investor[i]["balanceTotalPesos"] = formatterPeso.format(
+        this.state.investor[i]["balanceTotal"]
+      );
+    }
+  };
+
   backView = () => {
     this.props.navigation.goBack();
   };
 
+  outsession = () => {
+    setTimeout(() => {
+      this.props.navigation.navigate("Home");
+    }, 300);
+  };
+
   render() {
+    this.calcularRentabilidad();
+
     if (this.state.fontsLoaded) {
       return (
         <View style={styles.container}>
-          <MyHeader iconMenu={false} action={this.backView} />
+          <MyHeader
+            iconMenu={false}
+            action={this.backView}
+            outsession={this.outsession}
+          />
 
           <View style={styles.containerQuestion}>
             <Text style={styles.textQuestion}>Mis rendimientos</Text>
@@ -45,7 +114,9 @@ export default class Home extends React.Component {
           <View style={styles.containerFlex}>
             <View style={styles.containerDisplay}>
               <View style={styles.Display}>
-                <Text style={styles.textDisplay}>$ 215.268</Text>
+                <Text style={styles.textDisplay}>
+                  {this.state.investor[0]["balanceTotalPesos"]}
+                </Text>
               </View>
             </View>
           </View>
@@ -63,7 +134,11 @@ export default class Home extends React.Component {
             </View>
 
             <View style={styles.containerButton}>
-              <ButtonRounded action={this.saludo} message={"Invertir"} />
+              <ButtonRounded
+                action={this.saludo}
+                message={"Invertir"}
+                color="#4296f3"
+              />
             </View>
           </View>
 
@@ -76,7 +151,11 @@ export default class Home extends React.Component {
             </View>
 
             <View style={styles.containerButton}>
-              <ButtonRounded action={this.saludo} message={"Retirar"} />
+              <ButtonRounded
+                action={this.saludo}
+                message={"Retirar"}
+                color="#8acc1b"
+              />
             </View>
           </View>
 
@@ -89,7 +168,62 @@ export default class Home extends React.Component {
             </View>
 
             <View style={styles.containerButton}>
-              <ButtonRounded action={this.saludo} message={"Donar"} />
+              <ButtonRounded
+                action={this.saludo}
+                message={"Donar"}
+                color="gray"
+              />
+            </View>
+          </View>
+
+          <View style={styles.containerOption}>
+            <View style={styles.containerImage}>
+              <Image
+                style={styles.imageOption}
+                source={require("../sections/img/ingresos.png")}
+              />
+            </View>
+
+            <View style={styles.containerButton}>
+              <ButtonRounded
+                action={this.goInvestments}
+                message={"Ver mis inversiones"}
+                color="#4296f3"
+              />
+            </View>
+          </View>
+
+          <View style={styles.containerOption}>
+            <View style={styles.containerImage}>
+              <Image
+                style={styles.imageOption}
+                source={require("../sections/img/anciano.png")}
+              />
+            </View>
+
+            <View style={styles.containerButton}>
+              <ButtonRounded
+                action={this.goWithdrawal}
+                message={"Ver mis retiros"}
+                color="#8acc1b"
+              />
+            </View>
+          </View>
+
+          <View style={styles.containerOption}>
+            <View style={styles.containerImage}>
+              <Image
+                style={styles.imageOption}
+                source={require("../sections/img/contribucion.png")}
+              />
+            </View>
+
+            <View style={styles.containerButton}>
+              <ButtonRounded
+                action={this.saludo}
+                message={"Ver mis donaciones"}
+                color="gray"
+              />
             </View>
           </View>
         </View>

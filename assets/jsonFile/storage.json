@@ -1,0 +1,62 @@
+{
+  "investor": [
+    {
+      "id": "0f283503-e43d-4ffd-8dfe-50f5ec503c02",
+      "name": "Mateo Marquez",
+      "phone": "3101112222",
+      "email": "mateo.marquez@email.com",
+      "password": "12345",
+      "balanceTotal": "null",
+      "balanceTotalPesos": "null",
+      "investments": [
+        {
+          "id": "20703594-36ff-4420-a7cd-61c8c150d3ad",
+          "date": "2020, 1, 5",
+          "amount": "100000",
+          "amountPesos": "",
+          "numberDays": "120",
+          "profitability": "1.048",
+          "balance": "null",
+          "balancePesos": "null",
+          "active": "true"
+        },
+        {
+          "id": "81312b46-77a1-49ac-9124-53300f49611f",
+          "date": "2020, 3, 23",
+          "amount": "200000",
+          "amountPesos": "null",
+          "numberDays": "30",
+          "profitability": "1.03",
+          "balance": "null",
+          "balancePesos": "null",
+          "active": "true"
+        },
+        {
+          "id": "eab0c4e3-c6bc-4e57-9e57-b6d57d2f570f",
+          "date": "2020, 6, 10",
+          "amount": "100000",
+          "amountPesos": "null",
+          "numberDays": "30",
+          "profitability": "1.03",
+          "balance": "null",
+          "balancePesos": "null",
+          "active": "true"
+        }
+      ],
+      "removeMoney": [
+        {
+          "id": "eab0c4e3-c6bc-4e57-9e57-b6d57d2f570f",
+          "dateStart": "2020, 5, 5",
+          "dateEnd": "2020, 6, 10",
+          "amount": "100000",
+          "amountPesos": "null",
+          "numberDays": "30",
+          "profitability": "1.03",
+          "balance": "null",
+          "balancePesos": "null",
+          "active": "true"
+        }
+      ]
+    }
+  ]
+}

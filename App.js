@@ -1,17 +1,12 @@
-import React from 'react';
-import AppNavigation from './app/navigation/AppNavigation'
-import MotorCicle from './app/views/Investor'
-
+import React from "react";
+import AppNavigation from "./app/navigation/AppNavigation";
+import MotorCicle from "./app/views/MyWithdrawal";
 
 export default class App extends React.Component {
-  render(){
+  render() {
     return (
-     <AppNavigation/>
-      //  <MotorCicle/>
+      <AppNavigation />
+      // <MotorCicle />
     );
   }
 }
-
-
-
-

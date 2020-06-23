@@ -12,9 +12,17 @@ let customFonts = {
 };
 
 export default class Home extends React.Component {
-  state = {
-    fontsLoaded: false,
-  };
+  constructor(props) {
+    super(props);
+
+    this.state = {
+      creditPase: "$ 0",
+      selectPase: false,
+      fontsLoaded: false,
+      total: 0,
+      answer: "",
+    };
+  }
 
   async _loadFontsAsync() {
     await Font.loadAsync(customFonts);
@@ -25,8 +33,27 @@ export default class Home extends React.Component {
     this._loadFontsAsync();
   }
 
-  saludo = () => {
+  goSelectMotorcicle = () => {
     this.props.navigation.navigate("SelectMotorcicle");
+  };
+
+  giveACreditPase = () => {
+    this.setState({ creditPase: "$ 300.000" });
+    this.setState({ selectPase: true });
+  };
+
+  giveAnswer = () => {
+    setTimeout(() => {
+      // let a = (
+      //   <Image
+      //     source={{
+      //       uri:
+      //         "https://encolombia.com/wp-content/uploads/2020/02/Colombia-696x398.jpg",
+      //     }}
+      //   />
+      // );
+      this.setState({ answer: "Credito aprobado!!" });
+    }, 800);
   };
 
   goWorked = () => {
@@ -37,11 +64,45 @@ export default class Home extends React.Component {
     this.props.navigation.goBack();
   };
 
+  outsession = () => {
+    setTimeout(() => {
+      this.props.navigation.navigate("Home");
+    }, 300);
+  };
+
   render() {
+    const formatterPeso = new Intl.NumberFormat("es-CO", {
+      style: "currency",
+      currency: "COP",
+      minimumFractionDigits: 0,
+    });
+
+    let total = "$ 0";
+
+    const creditMotorcicle = this.props.navigation.state.params
+      .creditMotorcicle;
+
+    const selecCreditMotorcicle = this.props.navigation.state.params
+      .selecCreditMotorcicle;
+
+    const creditMotorciclePesos = formatterPeso.format(creditMotorcicle);
+
+    if (creditMotorcicle != 0) {
+      total = formatterPeso.format(3450000);
+    }
+
+    if (this.state.creditPase != "$ 0") {
+      total = formatterPeso.format(3750000);
+    }
+
     if (this.state.fontsLoaded) {
       return (
         <Container style={styles.container}>
-          <MyHeader iconMenu={false} action={this.backView} />
+          <MyHeader
+            iconMenu={false}
+            action={this.backView}
+            outsession={this.outsession}
+          />
 
           <View style={styles.containerQuestion}>
             <Text style={styles.textQuestion}>
@@ -54,9 +115,9 @@ export default class Home extends React.Component {
               <View style={styles.containerList}>
                 <ListItem style={styles.listItem}>
                   <CheckBox
-                    checked={false}
+                    checked={selecCreditMotorcicle}
                     color="green"
-                    onPress={this.saludo}
+                    onPress={this.goSelectMotorcicle}
                   />
                   <Body>
                     <Text style={styles.textProduct}>Moto</Text>
@@ -65,8 +126,8 @@ export default class Home extends React.Component {
               </View>
               <View style={styles.containerText}>
                 <View style={styles.rectangleGray}>
-                  <Text style={styles.textSign}>$</Text>
-                  <Text style={styles.textValue}> ________</Text>
+                  <Text style={styles.textSign}></Text>
+                  <Text style={styles.textValue}> {creditMotorciclePesos}</Text>
                 </View>
               </View>
             </View>
@@ -76,7 +137,11 @@ export default class Home extends React.Component {
             <View style={styles.containerOption}>
               <View style={styles.containerList}>
                 <ListItem style={styles.listItem}>
-                  <CheckBox checked={true} color="green" />
+                  <CheckBox
+                    checked={this.state.selectPase}
+                    color="green"
+                    onPress={this.giveACreditPase}
+                  />
                   <Body>
                     <Text style={styles.textProduct}>Pase</Text>
                   </Body>
@@ -84,8 +149,8 @@ export default class Home extends React.Component {
               </View>
               <View style={styles.containerText}>
                 <View style={styles.rectangleGray}>
-                  <Text style={styles.textSign}>$</Text>
-                  <Text style={styles.textValue}>300.000</Text>
+                  <Text style={styles.textSign}></Text>
+                  <Text style={styles.textValue}>{this.state.creditPase}</Text>
                 </View>
               </View>
             </View>
@@ -103,14 +168,18 @@ export default class Home extends React.Component {
               </View>
               <View style={styles.containerText}>
                 <View style={styles.rectangleGray}>
-                  <Text style={styles.textSignTotal}>$</Text>
-                  <Text style={styles.textTotal}>300.000</Text>
+                  <Text style={styles.textSignTotal}></Text>
+                  <Text style={styles.textTotal}>{total}</Text>
                 </View>
               </View>
             </View>
           </View>
           <View style={styles.containerButton}>
-            <MyButton message="Solicitar Prestamo" action={this.saludo} />
+            <MyButton message="Solicitar Prestamo" action={this.giveAnswer} />
+          </View>
+
+          <View style={styles.containerButton}>
+            <Text style={styles.answer}>{this.state.answer}</Text>
           </View>
         </Container>
       );
@@ -123,6 +192,7 @@ export default class Home extends React.Component {
 const styles = StyleSheet.create({
   container: {
     flex: 1,
+    backgroundColor: "#80808000",
   },
   textQuestion: {
     fontSize: 20,
@@ -146,7 +216,7 @@ const styles = StyleSheet.create({
     borderBottomWidth: 0,
   },
   containerQuestion: {
-    flex: 0.4,
+    flex: 0.6,
     justifyContent: "center",
   },
   containerList: {
@@ -193,7 +263,12 @@ const styles = StyleSheet.create({
   },
   flexCenter: {
     alignItems: "center",
-    flex: 0.3,
+    flex: 0.7,
     justifyContent: "center",
+  },
+  answer: {
+    fontSize: 18,
+    fontFamily: "Poppins-Medium",
+    color: "#f85b51",
   },
 });

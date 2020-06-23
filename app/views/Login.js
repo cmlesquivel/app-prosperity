@@ -25,7 +25,20 @@ export default class Home extends React.Component {
   }
 
   saludo = () => {
-    this.props.navigation.navigate("SelectProfile");
+    setTimeout(() => {
+      // let a = (
+      //   <Image
+      //     source={{
+      //       uri:
+      //         "https://encolombia.com/wp-content/uploads/2020/02/Colombia-696x398.jpg",
+      //     }}
+      //   />
+      // );
+
+      this.props.navigation.navigate("SelectProfile", {
+        name: "Mateo Marquez",
+      });
+    }, 300);
   };
 
   backView = () => {
@@ -36,17 +49,21 @@ export default class Home extends React.Component {
     if (this.state.fontsLoaded) {
       return (
         <View style={styles.container}>
-          <MyHeader iconMenu={false} action={this.backView} />
+          <MyHeader iconMenu={false} action={this.backView} sesion={false} />
 
           <View style={styles.containerTitle}>
             <Text style={styles.title}>Inicio de sesión</Text>
           </View>
-          <ScrollView style={{ flex: 7 }}>
+          <ScrollView>
             <View style={styles.containerMain}>
               <View style={styles.contentForm}>
                 <View style={styles.containerInput}>
                   <Text style={styles.label}>Correo</Text>
-                  <TextInput style={styles.input} />
+                  <TextInput
+                    style={styles.input}
+                    keyboardType="email-address"
+                    textContentType="emailAddress"
+                  />
                 </View>
 
                 <View style={styles.containerInput}>
@@ -92,10 +109,10 @@ const styles = StyleSheet.create({
     color: "#0000009c",
   },
   containerTitle: {
-    flex: 1,
+    // flex: 1,
     justifyContent: "center",
-    paddingTop: 30,
-    paddingBottom: 30,
+    paddingTop: 40,
+    paddingBottom: 40,
   },
   containerInput: {
     padding: 10,

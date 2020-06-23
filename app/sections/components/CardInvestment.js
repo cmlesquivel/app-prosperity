@@ -9,7 +9,7 @@ let customFonts = {
   "Poppins-Regular": require("../../../assets/fonts/Poppins-Regular.ttf"),
 };
 
-export class CardMotorcicle extends React.Component {
+export class CardInvestment extends React.Component {
   state = {
     fontsLoaded: false,
   };
@@ -25,60 +25,49 @@ export class CardMotorcicle extends React.Component {
 
   render() {
     const {
-      referencia,
-      motor,
-      precio,
-      marcaMotor,
-      cilindrada,
-      picture,
-      action,
+      date,
+      amountPesos,
+      numberDays,
+      profitability,
+      balance,
+      balancePesos,
     } = this.props;
 
-    const formatterPeso = new Intl.NumberFormat("es-CO", {
-      style: "currency",
-      currency: "COP",
-      minimumFractionDigits: 0,
-    });
-
-    const value = formatterPeso.format(precio);
+    let options = { year: "numeric", month: "long", day: "numeric" };
+    let formatDate = new Date(date).toLocaleDateString("es-ES", options);
+    let profitabilityReal = ((profitability - 1) * 100).toFixed(1);
 
     if (this.state.fontsLoaded) {
       return (
         <View style={styles.containerCard}>
           <View style={styles.card}>
-            <View style={styles.containerTitle}>
-              <Text style={styles.textTitle}>{referencia}</Text>
-            </View>
-
             <View style={styles.containerMotorcicle}>
-              <Image style={styles.imageMotorcicle} source={{ uri: picture }} />
               <View style={styles.featuresMotorcicle}>
                 <Text style={styles.textFeature}>
-                  Motor :<Text style={styles.textNoBold}> {motor}</Text>
+                  Fecha : <Text style={styles.textNoBold}>{formatDate}</Text>
+                </Text>
+                <Text style={styles.textFeature}>
+                  Monto :<Text style={styles.textNoBold}> {amountPesos}</Text>
                 </Text>
 
                 <Text style={styles.textFeature}>
-                  Cilindrada :
-                  <Text style={styles.textNoBold}> {cilindrada}</Text>
+                  Inversión + Ganancias :
+                  <Text style={styles.textNoBold}> {balancePesos}</Text>
                 </Text>
 
                 <Text style={styles.textFeature}>
-                  Marca del Motor :
-                  <Text style={styles.textNoBold}> {marcaMotor}</Text>
+                  Plazo :
+                  <Text style={styles.textNoBold}> {numberDays} días</Text>
                 </Text>
 
                 <Text style={styles.textFeature}>
-                  Precio :<Text style={styles.Textvalue}> {value}</Text>
+                  Interes :
+                  <Text style={styles.textNoBold}>
+                    {" "}
+                    {profitabilityReal} % (E.A)
+                  </Text>
                 </Text>
               </View>
-
-              <TouchableOpacity onPress={action}>
-                <View style={styles.button}>
-                  <Text style={styles.textButton}>
-                    Deseo financiar esta moto!
-                  </Text>
-                </View>
-              </TouchableOpacity>
             </View>
           </View>
         </View>
@@ -90,15 +79,15 @@ export class CardMotorcicle extends React.Component {
 }
 
 // validar el tipo de parametro -- tipado de informacion que recibimos
-CardMotorcicle.propTypes = {
-  action: PropTypes.func,
-  referencia: PropTypes.string.isRequired,
-  motor: PropTypes.string.isRequired,
-  precio: PropTypes.string.isRequired,
-  marcaMotor: PropTypes.string.isRequired,
-  cilindrada: PropTypes.string.isRequired,
-  picture: PropTypes.string.isRequired,
-};
+// CardMotorcicle.propTypes = {
+//     action: PropTypes.func,
+//     referencia: PropTypes.string.isRequired,
+//     motor: PropTypes.string.isRequired,
+//     precio: PropTypes.string.isRequired,
+//     marcaMotor: PropTypes.string.isRequired,
+//     cilindrada: PropTypes.string.isRequired,
+//     picture: PropTypes.string.isRequired
+// };
 
 const styles = StyleSheet.create({
   imageMotorcicle: {
@@ -114,9 +103,11 @@ const styles = StyleSheet.create({
     paddingLeft: 20,
     paddingTop: 10,
     paddingBottom: 15,
+    backgroundColor: "#80808070",
+    borderRadius: 15,
   },
   card: {
-    width: "75%",
+    width: "90%",
   },
   containerCard: {
     alignItems: "center",

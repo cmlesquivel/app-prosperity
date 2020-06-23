@@ -30,12 +30,21 @@ export default class Home extends React.Component {
     this._loadFontsAsync();
   }
 
+  outsession = () => {
+    setTimeout(() => {
+      this.props.navigation.navigate("Home");
+    }, 300);
+  };
+
   saludo = () => {
     this.props.navigation.navigate("Investor");
   };
 
   goWorked = () => {
-    this.props.navigation.navigate("Worked");
+    this.props.navigation.navigate("Worked", {
+      creditMotorcicle: 0,
+      selecCreditMotorcicle: false,
+    });
   };
 
   backView = () => {
@@ -43,13 +52,21 @@ export default class Home extends React.Component {
   };
 
   render() {
+    const name = this.props.navigation.state.params.name;
+
     if (this.state.fontsLoaded) {
       return (
         <View style={styles.container}>
-          <MyHeader iconMenu={false} action={this.backView} />
+          <MyHeader
+            iconMenu={false}
+            action={this.backView}
+            outsession={this.outsession}
+          />
 
           <View style={styles.ContainerTitle}>
-            <Text style={styles.TextTitle}>Selecciona tu perfil</Text>
+            <Text style={styles.TextTitle}>
+              ¡Hola {name}! {"\n"} ¿Cómo te podemos ayudar?
+            </Text>
           </View>
           <View style={styles.ContainerImage}>
             <TouchableHighlight
@@ -130,7 +147,7 @@ const styles = StyleSheet.create({
   },
   TextTitle: {
     textAlign: "center",
-    fontSize: 25,
+    fontSize: 21,
     fontWeight: "600",
     color: "#0000008f",
   },

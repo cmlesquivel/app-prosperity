@@ -9,6 +9,8 @@ import InvestorScreen from "../views/Investor";
 import WorkedScreen from "../views/worked";
 import MotorcicleScreen from "../views/SelectMotorcicle";
 import LoginScreen from "../views/Login";
+import WithdrawalScreen from "../views/MyWithdrawal";
+import InvestmentsScreen from "../views/Myinvestments";
 
 const AppNavigation = createStackNavigator(
   {
@@ -32,6 +34,18 @@ const AppNavigation = createStackNavigator(
     },
     SelectMotorcicle: {
       screen: MotorcicleScreen,
+      navigationOptions: {
+        headerShown: false,
+      },
+    },
+    Withdrawal: {
+      screen: WithdrawalScreen,
+      navigationOptions: {
+        headerShown: false,
+      },
+    },
+    Investments: {
+      screen: InvestmentsScreen,
       navigationOptions: {
         headerShown: false,
       },

@@ -45,7 +45,7 @@ export default class Home extends React.Component {
           source={require("../sections/img/screenWelcome.jpg")}
           style={styles.container}
         >
-          <MyHeader iconMenu={true} />
+          <MyHeader iconMenu={true} sesion={false} />
 
           <View style={styles.containerMessage}>
             <Text style={styles.message}>

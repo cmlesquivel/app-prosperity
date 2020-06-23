@@ -30,7 +30,10 @@ export default class SelectMotorcicle extends React.Component {
   }
 
   saludo = () => {
-    this.props.navigation.navigate("Worked");
+    this.props.navigation.navigate("Worked", {
+      creditMotorcicle: 3450000,
+      selecCreditMotorcicle: true,
+    });
   };
 
   backView = () => {
