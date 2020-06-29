@@ -27,13 +27,12 @@ export default class SelectMotorcicle extends React.Component {
     const motorCicles = require("../../assets/jsonFile/motorcicles.json")
       .motorCicles;
     this.setState({ motorCicles });
+
+    console.log(this.props);
   }
 
   saludo = () => {
-    this.props.navigation.navigate("Worked", {
-      creditMotorcicle: 3450000,
-      selecCreditMotorcicle: true,
-    });
+    this.props.navigation.navigate("Worked");
   };
 
   backView = () => {
@@ -62,7 +61,12 @@ export default class SelectMotorcicle extends React.Component {
                 marcaMotor={item.marcaMotor}
                 cilindrada={item.cilindrada}
                 picture={item.picture}
-                action={this.saludo}
+                action={() => {
+                  this.props.navigation.navigate("Worked", {
+                    priceCreditMotorcicle: item.precio,
+                    idMotorcicle: item.id,
+                  });
+                }}
               />
             )}
             keyExtractor={(item) => item.id}

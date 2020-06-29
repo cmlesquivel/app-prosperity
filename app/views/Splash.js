@@ -10,7 +10,7 @@ export default class Splash extends React.Component {
   componentDidMount() {
     setTimeout(() => {
       this.getUser();
-    }, 2000);
+    }, 20);
   }
 
   getUser() {

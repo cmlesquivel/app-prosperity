@@ -4,15 +4,22 @@ import { AppLoading } from "expo";
 import * as Font from "expo-font";
 import { MyHeader } from "../sections/Header.js";
 import { MyButton } from "../sections/components/myButton";
+import { connect } from "react-redux";
+import { createNewUser } from "../sections/storage/actions/actions";
 
 let customFonts = {
   "Poppins-Medium": require("../../assets/fonts/Poppins-Medium.ttf"),
   "Poppins-Regular": require("../../assets/fonts/Poppins-Regular.ttf"),
 };
 
-export default class Home extends React.Component {
+class Register extends React.Component {
   state = {
     fontsLoaded: false,
+    name: "",
+    document: "",
+    phone: "",
+    email: "",
+    password: "",
   };
 
   async _loadFontsAsync() {
@@ -24,22 +31,9 @@ export default class Home extends React.Component {
     this._loadFontsAsync();
   }
 
-  saludo = () => {
-    setTimeout(() => {
-      // let a = (
-      //   <Image
-      //     source={{
-      //       uri:
-      //         "https://encolombia.com/wp-content/uploads/2020/02/Colombia-696x398.jpg",
-      //     }}
-      //   />
-      // );
-
-      this.props.navigation.navigate("SelectProfile", {
-        name: "Paula Sanchez",
-      });
-    }, 300);
-  };
+  // componentDidUpdate() {
+  //   console.log(this.props.profile);
+  // }
 
   backView = () => {
     this.props.navigation.goBack();
@@ -59,17 +53,31 @@ export default class Home extends React.Component {
               <View style={styles.contentForm}>
                 <View style={styles.containerInput}>
                   <Text style={styles.label}>Nombre</Text>
-                  <TextInput style={styles.input} />
+                  <TextInput
+                    style={styles.input}
+                    value={this.state.name}
+                    onChangeText={(name) => this.setState({ name })}
+                  />
                 </View>
 
                 <View style={styles.containerInput}>
                   <Text style={styles.label}>Cédula</Text>
-                  <TextInput style={styles.input} keyboardType="numeric" />
+                  <TextInput
+                    style={styles.input}
+                    keyboardType="numeric"
+                    value={this.state.document}
+                    onChangeText={(document) => this.setState({ document })}
+                  />
                 </View>
 
                 <View style={styles.containerInput}>
                   <Text style={styles.label}>Teléfono</Text>
-                  <TextInput style={styles.input} keyboardType="numeric" />
+                  <TextInput
+                    style={styles.input}
+                    keyboardType="numeric"
+                    value={this.state.phone}
+                    onChangeText={(phone) => this.setState({ phone })}
+                  />
                 </View>
 
                 <View style={styles.containerInput}>
@@ -78,6 +86,8 @@ export default class Home extends React.Component {
                     style={styles.input}
                     keyboardType="email-address"
                     textContentType="emailAddress"
+                    value={this.state.email}
+                    onChangeText={(email) => this.setState({ email })}
                   />
                 </View>
 
@@ -88,11 +98,28 @@ export default class Home extends React.Component {
 
                 <View style={styles.containerInput}>
                   <Text style={styles.label}>Repite contraseña</Text>
-                  <TextInput secureTextEntry style={styles.input} />
+                  <TextInput
+                    secureTextEntry
+                    style={styles.input}
+                    value={this.state.password}
+                    onChangeText={(password) => this.setState({ password })}
+                  />
                 </View>
 
                 <View style={styles.containerButton}>
-                  <MyButton action={this.saludo} message={"Crear cuenta"} />
+                  <MyButton
+                    action={() => {
+                      this.props.createNewUser(
+                        this.state.name,
+                        this.state.document,
+                        this.state.phone,
+                        this.state.email,
+                        this.state.password
+                      );
+                      this.props.navigation.navigate("SelectProfile");
+                    }}
+                    message={"Crear cuenta"}
+                  />
                 </View>
               </View>
             </View>
@@ -159,3 +186,18 @@ const styles = StyleSheet.create({
     flexDirection: "row",
   },
 });
+
+function mapStateToProps(state) {
+  return {
+    profile: state,
+  };
+}
+
+function mapDispatchToProps(dispatch) {
+  return {
+    createNewUser: (name, document, phone, email, password) =>
+      dispatch(createNewUser(name, document, phone, email, password)),
+  };
+}
+
+export default connect(mapStateToProps, mapDispatchToProps)(Register);

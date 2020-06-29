@@ -9,14 +9,14 @@ import {
 import { AppLoading } from "expo";
 import * as Font from "expo-font";
 import { MyHeader } from "../sections/Header.js";
-import { ceil } from "react-native-reanimated";
+import { connect } from "react-redux";
 
 let customFonts = {
   "Poppins-Medium": require("../../assets/fonts/Poppins-Medium.ttf"),
   "Poppins-Regular": require("../../assets/fonts/Poppins-Regular.ttf"),
 };
 
-export default class Home extends React.Component {
+class SelectProfile extends React.Component {
   state = {
     fontsLoaded: false,
   };
@@ -31,9 +31,7 @@ export default class Home extends React.Component {
   }
 
   outsession = () => {
-    setTimeout(() => {
-      this.props.navigation.navigate("Home");
-    }, 300);
+    this.props.navigation.navigate("Home");
   };
 
   saludo = () => {
@@ -41,10 +39,7 @@ export default class Home extends React.Component {
   };
 
   goWorked = () => {
-    this.props.navigation.navigate("Worked", {
-      creditMotorcicle: 0,
-      selecCreditMotorcicle: false,
-    });
+    this.props.navigation.navigate("Worked");
   };
 
   backView = () => {
@@ -52,7 +47,7 @@ export default class Home extends React.Component {
   };
 
   render() {
-    const name = this.props.navigation.state.params.name;
+    const name = "Lucas";
 
     if (this.state.fontsLoaded) {
       return (
@@ -65,7 +60,7 @@ export default class Home extends React.Component {
 
           <View style={styles.ContainerTitle}>
             <Text style={styles.TextTitle}>
-              ¡Hola {name}! {"\n"} ¿Cómo te podemos ayudar?
+              ¡Hola {this.props.profile.name}! {"\n"} ¿Cómo te podemos ayudar?
             </Text>
           </View>
           <View style={styles.ContainerImage}>
@@ -155,3 +150,10 @@ const styles = StyleSheet.create({
     flex: 0.3,
   },
 });
+
+function mapStateToProps(state) {
+  return {
+    profile: state,
+  };
+}
+export default connect(mapStateToProps)(SelectProfile);

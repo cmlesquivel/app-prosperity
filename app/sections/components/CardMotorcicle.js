@@ -3,6 +3,7 @@ import { StyleSheet, View, Image, TouchableOpacity, Text } from "react-native";
 import { AppLoading } from "expo";
 import * as Font from "expo-font";
 import PropTypes from "prop-types"; //validar el tipo de dato de los parametros pasados
+import { toFormatterPeso } from "../functions";
 
 let customFonts = {
   "Poppins-Medium": require("../../../assets/fonts/Poppins-Medium.ttf"),
@@ -34,13 +35,7 @@ export class CardMotorcicle extends React.Component {
       action,
     } = this.props;
 
-    const formatterPeso = new Intl.NumberFormat("es-CO", {
-      style: "currency",
-      currency: "COP",
-      minimumFractionDigits: 0,
-    });
-
-    const value = formatterPeso.format(precio);
+    const value = toFormatterPeso(precio);
 
     if (this.state.fontsLoaded) {
       return (

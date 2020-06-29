@@ -23,18 +23,7 @@ export class MyHeader extends React.Component {
   }
 
   outsession = () => {
-    setTimeout(() => {
-      // let a = (
-      //   <Image
-      //     source={{
-      //       uri:
-      //         "https://encolombia.com/wp-content/uploads/2020/02/Colombia-696x398.jpg",
-      //     }}
-      //   />
-      // );
-
-      this.props.navigation.navigate("Home");
-    }, 300);
+    this.props.navigation.navigate("Home");
   };
 
   render() {

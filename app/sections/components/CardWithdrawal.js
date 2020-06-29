@@ -3,6 +3,7 @@ import { StyleSheet, View, Image, TouchableOpacity, Text } from "react-native";
 import { AppLoading } from "expo";
 import * as Font from "expo-font";
 import PropTypes from "prop-types"; //validar el tipo de dato de los parametros pasados
+import { toFormatterPeso, formatDate } from "../functions";
 
 let customFonts = {
   "Poppins-Medium": require("../../../assets/fonts/Poppins-Medium.ttf"),
@@ -27,20 +28,17 @@ export class CardWithdrawal extends React.Component {
     const {
       dateStart,
       dateEnd,
-      amountPesos,
+      amount,
       numberDays,
       profitability,
       balance,
-      balancePesos,
     } = this.props;
 
-    let options = { year: "numeric", month: "long", day: "numeric" };
-    let formatDateStart = new Date(dateStart).toLocaleDateString(
-      "es-ES",
-      options
-    );
-    let formatDateEnd = new Date(dateEnd).toLocaleDateString("es-ES", options);
-    let profitabilityReal = ((profitability - 1) * 100).toFixed(1);
+    let formatDateStart = formatDate(dateStart);
+    let formatDateEnd = formatDate(dateEnd);
+    let profitabilityReal = (profitability * 100).toFixed(1);
+    let amountPesos = toFormatterPeso(amount);
+    let balancePesos = toFormatterPeso(balance);
 
     if (this.state.fontsLoaded) {
       return (

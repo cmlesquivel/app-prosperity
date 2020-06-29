@@ -25,20 +25,7 @@ export default class Home extends React.Component {
   }
 
   saludo = () => {
-    setTimeout(() => {
-      // let a = (
-      //   <Image
-      //     source={{
-      //       uri:
-      //         "https://encolombia.com/wp-content/uploads/2020/02/Colombia-696x398.jpg",
-      //     }}
-      //   />
-      // );
-
-      this.props.navigation.navigate("SelectProfile", {
-        name: "Mateo Marquez",
-      });
-    }, 300);
+    this.props.navigation.navigate("SelectProfile");
   };
 
   backView = () => {

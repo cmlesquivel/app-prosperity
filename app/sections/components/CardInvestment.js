@@ -3,6 +3,7 @@ import { StyleSheet, View, Image, TouchableOpacity, Text } from "react-native";
 import { AppLoading } from "expo";
 import * as Font from "expo-font";
 import PropTypes from "prop-types"; //validar el tipo de dato de los parametros pasados
+import { toFormatterPeso, formatDate } from "../functions";
 
 let customFonts = {
   "Poppins-Medium": require("../../../assets/fonts/Poppins-Medium.ttf"),
@@ -24,18 +25,14 @@ export class CardInvestment extends React.Component {
   }
 
   render() {
-    const {
-      date,
-      amountPesos,
-      numberDays,
-      profitability,
-      balance,
-      balancePesos,
-    } = this.props;
+    const { date, amount, numberDays, profitability, balance } = this.props;
 
-    let options = { year: "numeric", month: "long", day: "numeric" };
-    let formatDate = new Date(date).toLocaleDateString("es-ES", options);
-    let profitabilityReal = ((profitability - 1) * 100).toFixed(1);
+    let profitabilityReal = (profitability * 100).toFixed(1);
+
+    let formatoDate = formatDate(date);
+
+    let balanceFormatPesos = toFormatterPeso(balance);
+    let amountFormatPesos = toFormatterPeso(amount);
 
     if (this.state.fontsLoaded) {
       return (
@@ -44,15 +41,16 @@ export class CardInvestment extends React.Component {
             <View style={styles.containerMotorcicle}>
               <View style={styles.featuresMotorcicle}>
                 <Text style={styles.textFeature}>
-                  Fecha : <Text style={styles.textNoBold}>{formatDate}</Text>
+                  Fecha : <Text style={styles.textNoBold}>{formatoDate}</Text>
                 </Text>
                 <Text style={styles.textFeature}>
-                  Monto :<Text style={styles.textNoBold}> {amountPesos}</Text>
+                  Monto :
+                  <Text style={styles.textNoBold}> {amountFormatPesos}</Text>
                 </Text>
 
                 <Text style={styles.textFeature}>
                   Inversión + Ganancias :
-                  <Text style={styles.textNoBold}> {balancePesos}</Text>
+                  <Text style={styles.textNoBold}> {balanceFormatPesos}</Text>
                 </Text>
 
                 <Text style={styles.textFeature}>

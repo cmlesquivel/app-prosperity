@@ -1,26 +1,33 @@
 import React from "react";
-import { StyleSheet, View, Text } from "react-native";
+import { StyleSheet, View, Text, Alert } from "react-native";
 import { Container, ListItem, CheckBox, Body } from "native-base";
 import { AppLoading } from "expo";
 import * as Font from "expo-font";
 import { MyHeader } from "../sections/Header.js";
 import { MyButton } from "../sections/components/myButton";
+import { toFormatterPeso } from "../sections/functions";
+import { connect } from "react-redux";
 
 let customFonts = {
   "Poppins-Medium": require("../../assets/fonts/Poppins-Medium.ttf"),
   "Poppins-Regular": require("../../assets/fonts/Poppins-Regular.ttf"),
 };
 
-export default class Home extends React.Component {
+let arrayPases = 0;
+let valueFeeMotorcicle = 0;
+
+export default class worked extends React.Component {
   constructor(props) {
     super(props);
 
     this.state = {
-      creditPase: "$ 0",
-      selectPase: false,
-      fontsLoaded: false,
-      total: 0,
+      pricePase: 0,
+      selectCreditPase: false,
+      selectCreditMotorcicle: false,
+      priceMotorcicle: 0,
       answer: "",
+      fontsLoaded: false,
+      initialFeeMotorcicle: 0,
     };
   }
 
@@ -31,29 +38,57 @@ export default class Home extends React.Component {
 
   componentDidMount() {
     this._loadFontsAsync();
+
+    arrayPases = require("../../assets/jsonFile/pase.json").pases;
+
+    valueFeeMotorcicle = require("../../assets/jsonFile/initialFee.json")
+      .initialFee[0].value;
+
+    // this.setState({
+    //   initialFeeMotorcicle: initialFeeMotorcicle[0].value,
+    // });
+  }
+
+  componentWillReceiveProps(nextProps) {
+    let priceMotorcicleNew =
+      nextProps.navigation.state.params.priceCreditMotorcicle;
+
+    this.setState({
+      priceMotorcicle: parseInt(priceMotorcicleNew),
+      selectCreditMotorcicle: true,
+      initialFeeMotorcicle: valueFeeMotorcicle,
+    });
   }
 
   goSelectMotorcicle = () => {
-    this.props.navigation.navigate("SelectMotorcicle");
+    this.state.selectCreditMotorcicle
+      ? this.setState({
+          selectCreditMotorcicle: false,
+          priceMotorcicle: 0,
+          initialFeeMotorcicle: 0,
+        })
+      : this.props.navigation.navigate("SelectMotorcicle");
   };
 
   giveACreditPase = () => {
-    this.setState({ creditPase: "$ 300.000" });
-    this.setState({ selectPase: true });
+    this.state.selectCreditPase
+      ? this.setState({
+          selectCreditPase: false,
+          pricePase: 0,
+        })
+      : this.setState({
+          selectCreditPase: true,
+          pricePase: arrayPases[0].precio,
+        });
   };
 
-  giveAnswer = () => {
-    setTimeout(() => {
-      // let a = (
-      //   <Image
-      //     source={{
-      //       uri:
-      //         "https://encolombia.com/wp-content/uploads/2020/02/Colombia-696x398.jpg",
-      //     }}
-      //   />
-      // );
-      this.setState({ answer: "Credito aprobado!!" });
-    }, 800);
+  requestCredit = () => {
+    Alert.alert(
+      "Mensaje",
+      "Credito aprobado",
+      [{ text: "OK", onPress: () => console.log("OK Pressed") }],
+      { cancelable: false }
+    );
   };
 
   goWorked = () => {
@@ -65,35 +100,16 @@ export default class Home extends React.Component {
   };
 
   outsession = () => {
-    setTimeout(() => {
-      this.props.navigation.navigate("Home");
-    }, 300);
+    this.props.navigation.navigate("Home");
   };
 
   render() {
-    const formatterPeso = new Intl.NumberFormat("es-CO", {
-      style: "currency",
-      currency: "COP",
-      minimumFractionDigits: 0,
-    });
+    const idMotorcicle = this.props.navigation.getParam("idMotorcicle", "");
 
-    let total = "$ 0";
-
-    const creditMotorcicle = this.props.navigation.state.params
-      .creditMotorcicle;
-
-    const selecCreditMotorcicle = this.props.navigation.state.params
-      .selecCreditMotorcicle;
-
-    const creditMotorciclePesos = formatterPeso.format(creditMotorcicle);
-
-    if (creditMotorcicle != 0) {
-      total = formatterPeso.format(3450000);
-    }
-
-    if (this.state.creditPase != "$ 0") {
-      total = formatterPeso.format(3750000);
-    }
+    let totalCredit =
+      this.state.pricePase +
+      this.state.priceMotorcicle +
+      this.state.initialFeeMotorcicle;
 
     if (this.state.fontsLoaded) {
       return (
@@ -115,8 +131,8 @@ export default class Home extends React.Component {
               <View style={styles.containerList}>
                 <ListItem style={styles.listItem}>
                   <CheckBox
-                    checked={selecCreditMotorcicle}
-                    color="green"
+                    checked={this.state.selectCreditMotorcicle}
+                    color="#d4af37"
                     onPress={this.goSelectMotorcicle}
                   />
                   <Body>
@@ -127,19 +143,44 @@ export default class Home extends React.Component {
               <View style={styles.containerText}>
                 <View style={styles.rectangleGray}>
                   <Text style={styles.textSign}></Text>
-                  <Text style={styles.textValue}> {creditMotorciclePesos}</Text>
+                  <Text style={styles.textValue}>
+                    {toFormatterPeso(this.state.priceMotorcicle)}
+                  </Text>
                 </View>
               </View>
             </View>
           </View>
+
+          {this.state.selectCreditMotorcicle && (
+            <View style={styles.flexCenter}>
+              <View style={styles.containerOption}>
+                <View style={styles.containerList}>
+                  <ListItem style={styles.listItem}>
+                    <CheckBox checked={true} color="transparent" disabled />
+                    <Body>
+                      <Text style={styles.textProduct}>Cuota inicial</Text>
+                    </Body>
+                  </ListItem>
+                </View>
+                <View style={styles.containerText}>
+                  <View style={styles.rectangleGray}>
+                    <Text style={styles.textSign}></Text>
+                    <Text style={styles.textValue}>
+                      {toFormatterPeso(this.state.initialFeeMotorcicle)}
+                    </Text>
+                  </View>
+                </View>
+              </View>
+            </View>
+          )}
 
           <View style={styles.flexCenter}>
             <View style={styles.containerOption}>
               <View style={styles.containerList}>
                 <ListItem style={styles.listItem}>
                   <CheckBox
-                    checked={this.state.selectPase}
-                    color="green"
+                    checked={this.state.selectCreditPase}
+                    color="#d4af37"
                     onPress={this.giveACreditPase}
                   />
                   <Body>
@@ -150,7 +191,9 @@ export default class Home extends React.Component {
               <View style={styles.containerText}>
                 <View style={styles.rectangleGray}>
                   <Text style={styles.textSign}></Text>
-                  <Text style={styles.textValue}>{this.state.creditPase}</Text>
+                  <Text style={styles.textValue}>
+                    {toFormatterPeso(this.state.pricePase)}
+                  </Text>
                 </View>
               </View>
             </View>
@@ -162,20 +205,25 @@ export default class Home extends React.Component {
                 <ListItem style={styles.listItem}>
                   <CheckBox checked={true} color="transparent" disabled />
                   <Body>
-                    <Text style={styles.textProductTotal}>Total</Text>
+                    <Text style={styles.textProductTotal}>Total crédito</Text>
                   </Body>
                 </ListItem>
               </View>
               <View style={styles.containerText}>
                 <View style={styles.rectangleGray}>
                   <Text style={styles.textSignTotal}></Text>
-                  <Text style={styles.textTotal}>{total}</Text>
+                  <Text style={styles.textTotal}>
+                    {toFormatterPeso(totalCredit)}
+                  </Text>
                 </View>
               </View>
             </View>
           </View>
           <View style={styles.containerButton}>
-            <MyButton message="Solicitar Prestamo" action={this.giveAnswer} />
+            <MyButton
+              message="Solicitar Prestamo"
+              action={this.requestCredit}
+            />
           </View>
 
           <View style={styles.containerButton}>

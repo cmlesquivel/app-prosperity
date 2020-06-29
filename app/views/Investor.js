@@ -4,16 +4,17 @@ import { AppLoading } from "expo";
 import * as Font from "expo-font";
 import { MyHeader } from "../sections/Header.js";
 import { ButtonRounded } from "../sections/components/ButtonRounded";
+import { connect } from "react-redux";
+import { toFormatterPeso } from "../sections/functions";
 
 let customFonts = {
   "Poppins-Medium": require("../../assets/fonts/Poppins-Medium.ttf"),
   "Poppins-Regular": require("../../assets/fonts/Poppins-Regular.ttf"),
 };
 
-export default class Home extends React.Component {
+class Investor extends React.Component {
   state = {
     fontsLoaded: false,
-    investor: [],
   };
 
   async _loadFontsAsync() {
@@ -23,66 +24,10 @@ export default class Home extends React.Component {
 
   componentDidMount() {
     this._loadFontsAsync();
-    const investor = require("../../assets/jsonFile/storage.json").investor;
-    this.setState({ investor });
   }
 
   saludo = () => {
     this.props.navigation.navigate("SelectProfile");
-  };
-
-  goWithdrawal = () => {
-    this.props.navigation.navigate("Withdrawal");
-  };
-
-  goInvestments = () => {
-    this.props.navigation.navigate("Investments");
-  };
-
-  calcularRentabilidad = () => {
-    let miFechaActual = new Date();
-    let day_as_milliseconds = 86400000;
-
-    const formatterPeso = new Intl.NumberFormat("es-CO", {
-      style: "currency",
-      currency: "COP",
-      minimumFractionDigits: 0,
-    });
-
-    for (let i = 0; i < this.state.investor.length; i++) {
-      this.state.investor[i]["balanceTotal"] = 0;
-      for (let j = 0; j < this.state.investor[i]["investments"].length; j++) {
-        let miFechaPasada = new Date(
-          this.state.investor[i]["investments"][j]["date"]
-        );
-
-        let diff_in_millisenconds = miFechaActual - miFechaPasada;
-        let diff_in_days = diff_in_millisenconds / day_as_milliseconds;
-        let periodos = Math.trunc(
-          diff_in_days / this.state.investor[i]["investments"][j]["numberDays"]
-        );
-
-        this.state.investor[i]["investments"][j]["balance"] =
-          this.state.investor[i]["investments"][j]["amount"] *
-          Math.pow(
-            this.state.investor[i]["investments"][j]["profitability"],
-            periodos
-          );
-
-        this.state.investor[i]["balanceTotal"] += this.state.investor[i][
-          "investments"
-        ][j]["balance"];
-
-        this.state.investor[i]["investments"][j][
-          "balancePesos"
-        ] = formatterPeso.format(
-          this.state.investor[i]["investments"][j]["balance"]
-        );
-      }
-      this.state.investor[i]["balanceTotalPesos"] = formatterPeso.format(
-        this.state.investor[i]["balanceTotal"]
-      );
-    }
   };
 
   backView = () => {
@@ -90,13 +35,11 @@ export default class Home extends React.Component {
   };
 
   outsession = () => {
-    setTimeout(() => {
-      this.props.navigation.navigate("Home");
-    }, 300);
+    this.props.navigation.navigate("Home");
   };
 
   render() {
-    this.calcularRentabilidad();
+    let balanceFormatPesos = toFormatterPeso(this.props.profile.balanceTotal);
 
     if (this.state.fontsLoaded) {
       return (
@@ -114,9 +57,7 @@ export default class Home extends React.Component {
           <View style={styles.containerFlex}>
             <View style={styles.containerDisplay}>
               <View style={styles.Display}>
-                <Text style={styles.textDisplay}>
-                  {this.state.investor[0]["balanceTotalPesos"]}
-                </Text>
+                <Text style={styles.textDisplay}>{balanceFormatPesos}</Text>
               </View>
             </View>
           </View>
@@ -186,7 +127,9 @@ export default class Home extends React.Component {
 
             <View style={styles.containerButton}>
               <ButtonRounded
-                action={this.goInvestments}
+                action={() => {
+                  this.props.navigation.navigate("Investments");
+                }}
                 message={"Ver mis inversiones"}
                 color="#4296f3"
               />
@@ -203,7 +146,9 @@ export default class Home extends React.Component {
 
             <View style={styles.containerButton}>
               <ButtonRounded
-                action={this.goWithdrawal}
+                action={() => {
+                  this.props.navigation.navigate("Withdrawal");
+                }}
                 message={"Ver mis retiros"}
                 color="#8acc1b"
               />
@@ -319,3 +264,11 @@ const styles = StyleSheet.create({
     alignItems: "center",
   },
 });
+
+function mapStateToProps(state) {
+  return {
+    profile: state,
+  };
+}
+
+export default connect(mapStateToProps)(Investor);
