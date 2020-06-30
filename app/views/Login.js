@@ -25,7 +25,7 @@ export default class Home extends React.Component {
   }
 
   saludo = () => {
-    this.props.navigation.navigate("SelectProfile");
+    this.props.navigation.navigate("Profile");
   };
 
   backView = () => {

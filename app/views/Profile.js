@@ -1,25 +1,35 @@
 import React from "react";
-import { StyleSheet, View, TextInput, Text, ScrollView } from "react-native";
+import {
+  StyleSheet,
+  View,
+  TextInput,
+  Text,
+  ScrollView,
+  Alert,
+} from "react-native";
 import { AppLoading } from "expo";
 import * as Font from "expo-font";
 import { MyHeader } from "../sections/Header.js";
 import { MyButton } from "../sections/components/myButton";
 import { connect } from "react-redux";
-import { createNewUser } from "../sections/storage/actions/actionsProfile";
+import {
+  fetchData,
+  updateUser,
+} from "../sections/storage/actions/actionsProfile";
 
 let customFonts = {
   "Poppins-Medium": require("../../assets/fonts/Poppins-Medium.ttf"),
   "Poppins-Regular": require("../../assets/fonts/Poppins-Regular.ttf"),
 };
 
-class Register extends React.Component {
+class Profile extends React.Component {
   state = {
     fontsLoaded: false,
-    name: "",
-    document: "",
-    phone: "",
-    email: "",
-    password: "",
+    name: this.props.profile.data.name,
+    document: this.props.profile.data.document,
+    phone: this.props.profile.data.phone,
+    email: this.props.profile.data.email,
+    // language: "",
   };
 
   async _loadFontsAsync() {
@@ -29,10 +39,29 @@ class Register extends React.Component {
 
   componentDidMount() {
     this._loadFontsAsync();
+    // this.props.fetchData();
   }
 
   backView = () => {
     this.props.navigation.goBack();
+  };
+
+  updateProfile = () => {
+    if (!this.state.name) {
+      Alert.alert("Ingrese por favor su nombre");
+    } else if (!this.state.document) {
+      Alert.alert("Ingrese por favor su cédula");
+    } else if (!this.state.phone) {
+      Alert.alert("Ingrese por favor su Teléfono");
+    } else {
+      this.props.updateUser(
+        this.state.name,
+        this.state.document,
+        this.state.phone
+      );
+
+      this.props.navigation.navigate("SelectProfile");
+    }
   };
 
   render() {
@@ -42,7 +71,7 @@ class Register extends React.Component {
           <MyHeader iconMenu={false} action={this.backView} sesion={false} />
 
           <View style={styles.containerTitle}>
-            <Text style={styles.title}>Registro</Text>
+            <Text style={styles.title}>Datos personales</Text>
           </View>
           <ScrollView>
             <View style={styles.containerMain}>
@@ -61,7 +90,7 @@ class Register extends React.Component {
                   <TextInput
                     style={styles.input}
                     keyboardType="numeric"
-                    value={this.state.document}
+                    value={`${this.state.document}`}
                     onChangeText={(document) => this.setState({ document })}
                   />
                 </View>
@@ -71,7 +100,7 @@ class Register extends React.Component {
                   <TextInput
                     style={styles.input}
                     keyboardType="numeric"
-                    value={this.state.phone}
+                    value={`${this.state.phone}`}
                     onChangeText={(phone) => this.setState({ phone })}
                   />
                 </View>
@@ -80,47 +109,21 @@ class Register extends React.Component {
                   <Text style={styles.label}>Correo</Text>
                   <TextInput
                     style={styles.input}
+                    editable={false}
                     keyboardType="email-address"
                     textContentType="emailAddress"
                     value={this.state.email}
-                    onChangeText={(email) => this.setState({ email })}
-                  />
-                </View>
-
-                <View style={styles.containerInput}>
-                  <Text style={styles.label}>Contraseña</Text>
-                  <TextInput secureTextEntry style={styles.input} />
-                </View>
-
-                <View style={styles.containerInput}>
-                  <Text style={styles.label}>Repite contraseña</Text>
-                  <TextInput
-                    secureTextEntry
-                    style={styles.input}
-                    value={this.state.password}
-                    onChangeText={(password) => this.setState({ password })}
                   />
                 </View>
 
                 <View style={styles.containerButton}>
                   <MyButton
-                    action={() => {
-                      this.props.createNewUser(
-                        this.state.name,
-                        this.state.document,
-                        this.state.phone,
-                        this.state.email,
-                        this.state.password
-                      );
-                      this.props.navigation.navigate("SelectProfile");
-                    }}
-                    message={"Crear cuenta"}
+                    action={this.updateProfile}
+                    message={"Guardar Cambios"}
                   />
                 </View>
               </View>
             </View>
-
-            <View style={styles.footer}></View>
           </ScrollView>
         </View>
       );
@@ -185,15 +188,17 @@ const styles = StyleSheet.create({
 
 function mapStateToProps(state) {
   return {
-    profile: state,
+    profile: state.profileReducer,
   };
 }
 
 function mapDispatchToProps(dispatch) {
   return {
-    createNewUser: (name, document, phone, email, password) =>
-      dispatch(createNewUser(name, document, phone, email, password)),
+    updateUser: (name, document, phone) =>
+      dispatch(updateUser(name, document, phone)),
+    fetchData: () => dispatch(fetchData()),
+    // changeLanguage: (language) => dispatch(changeLanguage(language)),
   };
 }
 
-export default connect(mapStateToProps, mapDispatchToProps)(Register);
+export default connect(mapStateToProps, mapDispatchToProps)(Profile);

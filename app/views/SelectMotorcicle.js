@@ -5,16 +5,17 @@ import { AppLoading } from "expo";
 import * as Font from "expo-font";
 import { MyHeader } from "../sections/Header";
 import { CardMotorcicle } from "../sections/components/CardMotorcicle";
+import { fetchData } from "../sections/storage/actions/actionsMotorcicle";
+import { connect } from "react-redux";
 
 let customFonts = {
   "Poppins-Medium": require("../../assets/fonts/Poppins-Medium.ttf"),
   "Poppins-Regular": require("../../assets/fonts/Poppins-Regular.ttf"),
 };
 
-export default class SelectMotorcicle extends React.Component {
+class SelectMotorcicle extends React.Component {
   state = {
     fontsLoaded: false,
-    motorCicles: [],
   };
 
   async _loadFontsAsync() {
@@ -24,11 +25,7 @@ export default class SelectMotorcicle extends React.Component {
 
   componentDidMount() {
     this._loadFontsAsync();
-    const motorCicles = require("../../assets/jsonFile/motorcicles.json")
-      .motorCicles;
-    this.setState({ motorCicles });
-
-    console.log(this.props);
+    // this.props.fetchData();
   }
 
   saludo = () => {
@@ -52,7 +49,7 @@ export default class SelectMotorcicle extends React.Component {
           </View>
 
           <FlatList
-            data={this.state.motorCicles}
+            data={this.props.motorcicles.data.motorCicles}
             renderItem={({ item }) => (
               <CardMotorcicle
                 referencia={item.referencia}
@@ -89,3 +86,17 @@ const styles = StyleSheet.create({
     paddingTop: 20,
   },
 });
+
+function mapStateToProps(state) {
+  return {
+    motorcicles: state.motorcicleReducer,
+  };
+}
+
+function mapDispatchToProps(dispatch) {
+  return {
+    fetchData: () => dispatch(fetchData()),
+  };
+}
+
+export default connect(mapStateToProps, mapDispatchToProps)(SelectMotorcicle);

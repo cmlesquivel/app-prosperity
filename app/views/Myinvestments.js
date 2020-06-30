@@ -20,7 +20,6 @@ let customFonts = {
 class MyInvestments extends React.Component {
   state = {
     fontsLoaded: false,
-    investor: [],
   };
 
   async _loadFontsAsync() {
@@ -30,8 +29,6 @@ class MyInvestments extends React.Component {
 
   componentDidMount() {
     this._loadFontsAsync();
-    const investor = require("../../assets/jsonFile/storage.json").investor;
-    this.setState({ investor });
   }
 
   backView = () => {
@@ -49,7 +46,7 @@ class MyInvestments extends React.Component {
           </View>
 
           <FlatList
-            data={this.props.profile.investments}
+            data={this.props.profile.data.investments}
             renderItem={({ item }) => (
               <CardInvestment
                 date={item.date}
@@ -87,7 +84,7 @@ const styles = StyleSheet.create({
 
 function mapStateToProps(state) {
   return {
-    profile: state,
+    profile: state.profileReducer,
   };
 }
 

@@ -7,16 +7,14 @@ import { MyHeader } from "../sections/Header.js";
 import { MyButton } from "../sections/components/myButton";
 import { toFormatterPeso } from "../sections/functions";
 import { connect } from "react-redux";
+import { fetchData } from "../sections/storage/actions/actionsCosts";
 
 let customFonts = {
   "Poppins-Medium": require("../../assets/fonts/Poppins-Medium.ttf"),
   "Poppins-Regular": require("../../assets/fonts/Poppins-Regular.ttf"),
 };
 
-let arrayPases = 0;
-let valueFeeMotorcicle = 0;
-
-export default class worked extends React.Component {
+class Worked extends React.Component {
   constructor(props) {
     super(props);
 
@@ -38,15 +36,7 @@ export default class worked extends React.Component {
 
   componentDidMount() {
     this._loadFontsAsync();
-
-    arrayPases = require("../../assets/jsonFile/pase.json").pases;
-
-    valueFeeMotorcicle = require("../../assets/jsonFile/initialFee.json")
-      .initialFee[0].value;
-
-    // this.setState({
-    //   initialFeeMotorcicle: initialFeeMotorcicle[0].value,
-    // });
+    // this.props.fetchData();
   }
 
   componentWillReceiveProps(nextProps) {
@@ -56,7 +46,7 @@ export default class worked extends React.Component {
     this.setState({
       priceMotorcicle: parseInt(priceMotorcicleNew),
       selectCreditMotorcicle: true,
-      initialFeeMotorcicle: valueFeeMotorcicle,
+      initialFeeMotorcicle: this.props.costs.data.initialFeeMotorcicle.value,
     });
   }
 
@@ -78,7 +68,7 @@ export default class worked extends React.Component {
         })
       : this.setState({
           selectCreditPase: true,
-          pricePase: arrayPases[0].precio,
+          pricePase: this.props.costs.data.pases.value,
         });
   };
 
@@ -320,3 +310,17 @@ const styles = StyleSheet.create({
     color: "#f85b51",
   },
 });
+
+function mapStateToProps(state) {
+  return {
+    costs: state.costsReducer,
+  };
+}
+
+function mapDispatchToProps(dispatch) {
+  return {
+    fetchData: () => dispatch(fetchData()),
+  };
+}
+
+export default connect(mapStateToProps, mapDispatchToProps)(Worked);

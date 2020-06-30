@@ -11,6 +11,7 @@ import MotorcicleScreen from "../views/SelectMotorcicle";
 import LoginScreen from "../views/Login";
 import WithdrawalScreen from "../views/MyWithdrawal";
 import InvestmentsScreen from "../views/Myinvestments";
+import ProfileScreen from "../views/Profile";
 
 const AppNavigation = createStackNavigator(
   {
@@ -50,9 +51,16 @@ const AppNavigation = createStackNavigator(
         headerShown: false,
       },
     },
+    Profile: {
+      screen: ProfileScreen,
+      navigationOptions: {
+        headerShown: false,
+      },
+    },
   },
   {
-    initialRouteName: "SelectProfile",
+    // initialRouteName: "SelectProfile",
+    initialRouteName: "Profile",
   }
 );
 

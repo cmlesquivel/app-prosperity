@@ -34,21 +34,11 @@ class SelectProfile extends React.Component {
     this.props.navigation.navigate("Home");
   };
 
-  saludo = () => {
-    this.props.navigation.navigate("Investor");
-  };
-
-  goWorked = () => {
-    this.props.navigation.navigate("Worked");
-  };
-
   backView = () => {
     this.props.navigation.goBack();
   };
 
   render() {
-    const name = "Lucas";
-
     if (this.state.fontsLoaded) {
       return (
         <View style={styles.container}>
@@ -60,12 +50,15 @@ class SelectProfile extends React.Component {
 
           <View style={styles.ContainerTitle}>
             <Text style={styles.TextTitle}>
-              ¡Hola {this.props.profile.name}! {"\n"} ¿Cómo te podemos ayudar?
+              ¡Hola {this.props.profile.data.name}! {"\n"} ¿Cómo te podemos
+              ayudar?
             </Text>
           </View>
           <View style={styles.ContainerImage}>
             <TouchableHighlight
-              onPress={this.saludo}
+              onPress={() => {
+                this.props.navigation.navigate("Investor");
+              }}
               style={styles.imageTouchable}
             >
               <ImageBackground
@@ -79,7 +72,9 @@ class SelectProfile extends React.Component {
             </TouchableHighlight>
 
             <TouchableHighlight
-              onPress={this.goWorked}
+              onPress={() => {
+                this.props.navigation.navigate("Worked");
+              }}
               style={styles.imageTouchable}
             >
               <ImageBackground
@@ -153,7 +148,7 @@ const styles = StyleSheet.create({
 
 function mapStateToProps(state) {
   return {
-    profile: state,
+    profile: state.profileReducer,
   };
 }
 export default connect(mapStateToProps)(SelectProfile);

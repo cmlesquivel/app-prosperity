@@ -39,7 +39,9 @@ class Investor extends React.Component {
   };
 
   render() {
-    let balanceFormatPesos = toFormatterPeso(this.props.profile.balanceTotal);
+    let balanceFormatPesos = toFormatterPeso(
+      this.props.profile.data.balanceTotal
+    );
 
     if (this.state.fontsLoaded) {
       return (
@@ -267,7 +269,7 @@ const styles = StyleSheet.create({
 
 function mapStateToProps(state) {
   return {
-    profile: state,
+    profile: state.profileReducer,
   };
 }
 

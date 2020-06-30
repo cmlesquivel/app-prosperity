@@ -23,8 +23,6 @@ class MyWithdrawals extends React.Component {
 
   componentDidMount() {
     this._loadFontsAsync();
-    // const investor = require("../../assets/jsonFile/storage.json").investor;
-    // this.setState({ investor });
   }
 
   backView = () => {
@@ -41,7 +39,7 @@ class MyWithdrawals extends React.Component {
           </View>
 
           <FlatList
-            data={this.props.profile.removeMoney}
+            data={this.props.profile.data.removeMoney}
             renderItem={({ item }) => (
               <CardWithdrawal
                 dateStart={item.dateStart}
@@ -80,7 +78,7 @@ const styles = StyleSheet.create({
 
 function mapStateToProps(state) {
   return {
-    profile: state,
+    profile: state.profileReducer,
   };
 }
 
