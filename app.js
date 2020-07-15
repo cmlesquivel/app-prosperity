@@ -1,6 +1,7 @@
 const express = require("express");
 const bodyParser = require("body-parser");
 const app = express();
+const cors = require("cors");
 
 // const getAllRoutes = require("./routes/getall");
 const getAllMotorciclesRoutes = require("./routes/getAllMotorcicles");
@@ -10,6 +11,9 @@ const addInvesmentRoutes = require("./routes/addInvesment");
 const addMotocicleRoutes = require("./routes/addMotorcicle");
 const addCreditRoutes = require("./routes/addCredit");
 const getPaymentRoutes = require("./routes/getPayment");
+const getDataProfileRoutes = require("./routes/getDataProfile");
+const getDataCreditRoutes = require("./routes/getDataCredit");
+
 const changeInvesmentRoutes = require("./routes/changeInvesment");
 const changeRegisterRoutes = require("./routes/changeRegister");
 const getInvestorRoutes = require("./routes/getInvestor");
@@ -18,12 +22,16 @@ const registerRoutes = require("./routes/register");
 const authenticateRoutes = require("./routes/authenticate");
 const getDataAppRoutes = require("./routes/getDataApp");
 
+app.use(cors());
+
 app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({ extended: true }));
 
 app.use(express.static(__dirname + "/public"));
 app.use("/v1", addPaymentRoutes);
 app.use("/v1", getAllMotorciclesRoutes);
+app.use("/v1", getDataProfileRoutes);
+app.use("/v1", getDataCreditRoutes);
 app.use("/v1", getPaymentRoutes);
 app.use("/v1", getDataAppRoutes);
 app.use("/v1", addInvesmentRoutes);

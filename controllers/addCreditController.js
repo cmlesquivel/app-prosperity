@@ -10,6 +10,10 @@ function addCredit(req, res) {
     interest,
     active,
     monthlyPayment,
+    priceMotorcicle,
+    pricePase,
+    stateCredit,
+    email,
   } = req.body;
 
   const credit = new Credit({
@@ -21,6 +25,10 @@ function addCredit(req, res) {
     interest,
     active,
     monthlyPayment,
+    priceMotorcicle,
+    pricePase,
+    stateCredit,
+    email,
   });
 
   credit

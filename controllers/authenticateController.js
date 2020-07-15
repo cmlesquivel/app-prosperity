@@ -2,6 +2,7 @@ const Profile = require("../models/Profile");
 
 function authenticateUser(req, res) {
   const { email, password } = req.body;
+  console.log(password);
 
   Profile.findOne({ email }, function (err, user) {
     res.setHeader("Content-type", "text/json");

@@ -19,9 +19,11 @@ function getInvestor(req, res) {
         }
       });
 
-      invesment.push({ balanceTotal: balanceTotal.toFixed(2) });
-
-      res.json({ response: "success", data: invesment });
+      res.json({
+        response: "success",
+        data: invesment,
+        balanceTotal: balanceTotal.toFixed(2),
+      });
     })
     .catch((err) => {
       res
