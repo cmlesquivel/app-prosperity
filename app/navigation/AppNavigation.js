@@ -12,6 +12,9 @@ import LoginScreen from "../views/Login";
 import WithdrawalScreen from "../views/MyWithdrawal";
 import InvestmentsScreen from "../views/Myinvestments";
 import ProfileScreen from "../views/Profile";
+import AddInvesmentScreen from "../views/AddInvesment";
+import DoWithdrawalScreen from "../views/DoWithdrawal";
+import PaymentCreditScreen from "../views/PaymentCredit";
 
 const AppNavigation = createStackNavigator(
   {
@@ -57,10 +60,29 @@ const AppNavigation = createStackNavigator(
         headerShown: false,
       },
     },
+    DoWithdrawal: {
+      screen: DoWithdrawalScreen,
+      navigationOptions: {
+        headerShown: false,
+      },
+    },
+    AddInvesment: {
+      screen: AddInvesmentScreen,
+      navigationOptions: {
+        headerShown: false,
+      },
+    },
+
+    PaymentCredit: {
+      screen: PaymentCreditScreen,
+      navigationOptions: {
+        headerShown: false,
+      },
+    },
   },
   {
-    // initialRouteName: "SelectProfile",
-    initialRouteName: "Profile",
+    initialRouteName: "SelectProfile",
+    // initialRouteName: "Worked",
   }
 );
 
@@ -94,6 +116,7 @@ export default createAppContainer(
   createSwitchNavigator(
     {
       auth: LoginNavigation,
+      // auth: PaymentCreditScreen,
       app: AppNavigation,
       splash: {
         screen: SplashScreen,

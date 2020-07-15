@@ -3,14 +3,14 @@ import { StyleSheet, View, Image, TouchableOpacity, Text } from "react-native";
 import { AppLoading } from "expo";
 import * as Font from "expo-font";
 import PropTypes from "prop-types"; //validar el tipo de dato de los parametros pasados
-import { toFormatterPeso, formatDate } from "../functions";
+import { toFormatterPeso, formatDate, getPeriod } from "../functions";
 
 let customFonts = {
   "Poppins-Medium": require("../../../assets/fonts/Poppins-Medium.ttf"),
   "Poppins-Regular": require("../../../assets/fonts/Poppins-Regular.ttf"),
 };
 
-export class CardWithdrawal extends React.Component {
+export class CardDoWithdrawal extends React.Component {
   state = {
     fontsLoaded: false,
   };
@@ -26,42 +26,41 @@ export class CardWithdrawal extends React.Component {
 
   render() {
     const {
-      dateStart,
-      dateEnd,
+      date,
       amount,
       numberDays,
       profitability,
       balance,
       active,
+      action,
     } = this.props;
 
-    let formatDateStart = formatDate(dateStart);
-    let formatDateEnd = formatDate(dateEnd);
     let profitabilityReal = (profitability * 100).toFixed(1);
-    let amountPesos = toFormatterPeso(amount);
-    let balancePesos = toFormatterPeso(balance);
 
-    if (this.state.fontsLoaded && !active) {
+    let formatoDate = formatDate(date);
+
+    let balanceFormatPesos = toFormatterPeso(balance);
+    let amountFormatPesos = toFormatterPeso(amount);
+
+    let period = getPeriod(numberDays, date);
+
+    if (this.state.fontsLoaded && active && period > 0) {
       return (
         <View style={styles.containerCard}>
           <View style={styles.card}>
             <View style={styles.containerMotorcicle}>
               <View style={styles.featuresMotorcicle}>
                 <Text style={styles.textFeature}>
-                  Fecha Inicial:{" "}
-                  <Text style={styles.textNoBold}>{formatDateStart}</Text>
+                  Fecha : <Text style={styles.textNoBold}>{formatoDate}</Text>
                 </Text>
                 <Text style={styles.textFeature}>
-                  Fecha Final:{" "}
-                  <Text style={styles.textNoBold}>{formatDateEnd}</Text>
-                </Text>
-                <Text style={styles.textFeature}>
-                  Monto :<Text style={styles.textNoBold}> {amountPesos}</Text>
+                  Monto :
+                  <Text style={styles.textNoBold}> {amountFormatPesos}</Text>
                 </Text>
 
                 <Text style={styles.textFeature}>
                   Inversión + Ganancias :
-                  <Text style={styles.textNoBold}> {balancePesos}</Text>
+                  <Text style={styles.textNoBold}> {balanceFormatPesos}</Text>
                 </Text>
 
                 <Text style={styles.textFeature}>
@@ -76,6 +75,14 @@ export class CardWithdrawal extends React.Component {
                     {profitabilityReal} % (E.A)
                   </Text>
                 </Text>
+
+                <TouchableOpacity onPress={action}>
+                  <View style={styles.button}>
+                    <Text style={styles.textButton}>
+                      Deseo retirar esta inversión
+                    </Text>
+                  </View>
+                </TouchableOpacity>
               </View>
             </View>
           </View>
@@ -86,17 +93,6 @@ export class CardWithdrawal extends React.Component {
     }
   }
 }
-
-// validar el tipo de parametro -- tipado de informacion que recibimos
-// CardMotorcicle.propTypes = {
-//     action: PropTypes.func,
-//     referencia: PropTypes.string.isRequired,
-//     motor: PropTypes.string.isRequired,
-//     precio: PropTypes.string.isRequired,
-//     marcaMotor: PropTypes.string.isRequired,
-//     cilindrada: PropTypes.string.isRequired,
-//     picture: PropTypes.string.isRequired
-// };
 
 const styles = StyleSheet.create({
   imageMotorcicle: {
@@ -164,5 +160,7 @@ const styles = StyleSheet.create({
     borderWidth: 0,
     paddingTop: 6,
     paddingBottom: 6,
+    width: "93%",
+    marginTop: 10,
   },
 });

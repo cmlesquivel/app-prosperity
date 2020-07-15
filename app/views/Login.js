@@ -1,17 +1,28 @@
 import React from "react";
-import { StyleSheet, View, TextInput, Text, ScrollView } from "react-native";
+import {
+  StyleSheet,
+  View,
+  TextInput,
+  Text,
+  ScrollView,
+  Alert,
+} from "react-native";
 import { AppLoading } from "expo";
 import * as Font from "expo-font";
 import { MyHeader } from "../sections/Header.js";
 import { MyButton } from "../sections/components/myButton";
+import { fetchAuthenticate } from "../sections/storage/actions/actionsProfile";
+import { connect } from "react-redux";
 
 let customFonts = {
   "Poppins-Medium": require("../../assets/fonts/Poppins-Medium.ttf"),
   "Poppins-Regular": require("../../assets/fonts/Poppins-Regular.ttf"),
 };
 
-export default class Home extends React.Component {
+class Login extends React.Component {
   state = {
+    email: "",
+    password: "",
     fontsLoaded: false,
   };
 
@@ -24,8 +35,22 @@ export default class Home extends React.Component {
     this._loadFontsAsync();
   }
 
-  saludo = () => {
-    this.props.navigation.navigate("Profile");
+  login = () => {
+    if (!this.state.email) {
+      Alert.alert("Ingrese por favor su correo");
+    } else if (!this.state.password) {
+      Alert.alert("Ingrese por favor su contraseña");
+    } else {
+      this.props.fetchAuthenticate(this.state.email, this.state.password);
+      setTimeout(() => {
+        if (this.props.profile.data.email === this.state.email) {
+          console.log("Logueado");
+          this.props.navigation.navigate("SelectProfile");
+        } else {
+          Alert.alert("Revisa tu correo y/o contraseña");
+        }
+      }, 300);
+    }
   };
 
   backView = () => {
@@ -50,16 +75,21 @@ export default class Home extends React.Component {
                     style={styles.input}
                     keyboardType="email-address"
                     textContentType="emailAddress"
+                    onChangeText={(email) => this.setState({ email })}
                   />
                 </View>
 
                 <View style={styles.containerInput}>
                   <Text style={styles.label}>Contraseña</Text>
-                  <TextInput secureTextEntry style={styles.input} />
+                  <TextInput
+                    secureTextEntry
+                    style={styles.input}
+                    onChangeText={(password) => this.setState({ password })}
+                  />
                 </View>
 
                 <View style={styles.containerButton}>
-                  <MyButton action={this.saludo} message={"Ingresar"} />
+                  <MyButton action={this.login} message={"Ingresar"} />
                 </View>
               </View>
             </View>
@@ -126,3 +156,18 @@ const styles = StyleSheet.create({
     flexDirection: "row",
   },
 });
+
+function mapStateToProps(state) {
+  return {
+    profile: state.profileReducer,
+  };
+}
+
+function mapDispatchToProps(dispatch) {
+  return {
+    fetchAuthenticate: (email, password) =>
+      dispatch(fetchAuthenticate(email, password)),
+  };
+}
+
+export default connect(mapStateToProps, mapDispatchToProps)(Login);

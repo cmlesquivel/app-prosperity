@@ -6,6 +6,7 @@ import { MyHeader } from "../sections/Header.js";
 import { ButtonRounded } from "../sections/components/ButtonRounded";
 import { connect } from "react-redux";
 import { toFormatterPeso } from "../sections/functions";
+import { fetchInvestments } from "../sections/storage/actions/actionsProfile";
 
 let customFonts = {
   "Poppins-Medium": require("../../assets/fonts/Poppins-Medium.ttf"),
@@ -24,6 +25,7 @@ class Investor extends React.Component {
 
   componentDidMount() {
     this._loadFontsAsync();
+    this.props.fetchInvestments(this.props.profile.data._id);
   }
 
   saludo = () => {
@@ -34,11 +36,20 @@ class Investor extends React.Component {
     this.props.navigation.goBack();
   };
 
+  goDoWithdrawal = () => {
+    this.props.navigation.navigate("DoWithdrawal");
+  };
+
   outsession = () => {
     this.props.navigation.navigate("Home");
   };
 
+  doInvesment = () => {
+    this.props.navigation.navigate("AddInvesment");
+  };
+
   render() {
+    console.log(this.props.profileState);
     let balanceFormatPesos = toFormatterPeso(
       this.props.profile.data.balanceTotal
     );
@@ -78,7 +89,7 @@ class Investor extends React.Component {
 
             <View style={styles.containerButton}>
               <ButtonRounded
-                action={this.saludo}
+                action={this.doInvesment}
                 message={"Invertir"}
                 color="#4296f3"
               />
@@ -95,7 +106,7 @@ class Investor extends React.Component {
 
             <View style={styles.containerButton}>
               <ButtonRounded
-                action={this.saludo}
+                action={this.goDoWithdrawal}
                 message={"Retirar"}
                 color="#8acc1b"
               />
@@ -270,7 +281,14 @@ const styles = StyleSheet.create({
 function mapStateToProps(state) {
   return {
     profile: state.profileReducer,
+    profileState: state,
   };
 }
 
-export default connect(mapStateToProps)(Investor);
+function mapDispatchToProps(dispatch) {
+  return {
+    fetchInvestments: (id_user) => dispatch(fetchInvestments(id_user)),
+  };
+}
+
+export default connect(mapStateToProps, mapDispatchToProps)(Investor);

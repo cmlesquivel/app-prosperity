@@ -3,14 +3,14 @@ import { StyleSheet, View, Image, TouchableOpacity, Text } from "react-native";
 import { AppLoading } from "expo";
 import * as Font from "expo-font";
 import PropTypes from "prop-types"; //validar el tipo de dato de los parametros pasados
-import { toFormatterPeso, formatDate } from "../functions";
+import { toFormatterPeso } from "../functions";
 
 let customFonts = {
   "Poppins-Medium": require("../../../assets/fonts/Poppins-Medium.ttf"),
   "Poppins-Regular": require("../../../assets/fonts/Poppins-Regular.ttf"),
 };
 
-export class CardWithdrawal extends React.Component {
+export class CardCreditMotorcicle extends React.Component {
   state = {
     fontsLoaded: false,
   };
@@ -26,57 +26,55 @@ export class CardWithdrawal extends React.Component {
 
   render() {
     const {
-      dateStart,
-      dateEnd,
-      amount,
-      numberDays,
-      profitability,
-      balance,
-      active,
+      referencia,
+      motor,
+      precio,
+      marcaMotor,
+      cilindrada,
+      picture,
+      idMotorcicle,
+      item_id,
     } = this.props;
 
-    let formatDateStart = formatDate(dateStart);
-    let formatDateEnd = formatDate(dateEnd);
-    let profitabilityReal = (profitability * 100).toFixed(1);
-    let amountPesos = toFormatterPeso(amount);
-    let balancePesos = toFormatterPeso(balance);
+    const value = toFormatterPeso(precio);
 
-    if (this.state.fontsLoaded && !active) {
+    if (this.state.fontsLoaded && idMotorcicle === item_id) {
       return (
         <View style={styles.containerCard}>
           <View style={styles.card}>
+            <View style={styles.containerTitle}>
+              <Text style={styles.textTitle}>{referencia}</Text>
+            </View>
+
             <View style={styles.containerMotorcicle}>
+              <Image style={styles.imageMotorcicle} source={{ uri: picture }} />
               <View style={styles.featuresMotorcicle}>
                 <Text style={styles.textFeature}>
-                  Fecha Inicial:{" "}
-                  <Text style={styles.textNoBold}>{formatDateStart}</Text>
-                </Text>
-                <Text style={styles.textFeature}>
-                  Fecha Final:{" "}
-                  <Text style={styles.textNoBold}>{formatDateEnd}</Text>
-                </Text>
-                <Text style={styles.textFeature}>
-                  Monto :<Text style={styles.textNoBold}> {amountPesos}</Text>
+                  Motor :<Text style={styles.textNoBold}> {motor}</Text>
                 </Text>
 
                 <Text style={styles.textFeature}>
-                  Inversión + Ganancias :
-                  <Text style={styles.textNoBold}> {balancePesos}</Text>
+                  Cilindrada :
+                  <Text style={styles.textNoBold}> {cilindrada}</Text>
                 </Text>
 
                 <Text style={styles.textFeature}>
-                  Plazo :
-                  <Text style={styles.textNoBold}> {numberDays} días</Text>
+                  Marca del Motor :
+                  <Text style={styles.textNoBold}> {marcaMotor}</Text>
                 </Text>
 
                 <Text style={styles.textFeature}>
-                  Interes :
-                  <Text style={styles.textNoBold}>
-                    {" "}
-                    {profitabilityReal} % (E.A)
-                  </Text>
+                  Precio :<Text style={styles.Textvalue}> {value}</Text>
                 </Text>
               </View>
+
+              {/* <TouchableOpacity onPress={action}>
+                <View style={styles.button}>
+                  <Text style={styles.textButton}>
+                    Deseo financiar esta moto!
+                  </Text>
+                </View>
+              </TouchableOpacity> */}
             </View>
           </View>
         </View>
@@ -88,15 +86,15 @@ export class CardWithdrawal extends React.Component {
 }
 
 // validar el tipo de parametro -- tipado de informacion que recibimos
-// CardMotorcicle.propTypes = {
-//     action: PropTypes.func,
-//     referencia: PropTypes.string.isRequired,
-//     motor: PropTypes.string.isRequired,
-//     precio: PropTypes.string.isRequired,
-//     marcaMotor: PropTypes.string.isRequired,
-//     cilindrada: PropTypes.string.isRequired,
-//     picture: PropTypes.string.isRequired
-// };
+CardCreditMotorcicle.propTypes = {
+  action: PropTypes.func,
+  referencia: PropTypes.string.isRequired,
+  motor: PropTypes.string.isRequired,
+  precio: PropTypes.string.isRequired,
+  marcaMotor: PropTypes.string.isRequired,
+  cilindrada: PropTypes.string.isRequired,
+  picture: PropTypes.string.isRequired,
+};
 
 const styles = StyleSheet.create({
   imageMotorcicle: {
@@ -112,11 +110,13 @@ const styles = StyleSheet.create({
     paddingLeft: 20,
     paddingTop: 10,
     paddingBottom: 15,
-    backgroundColor: "#80808070",
-    borderRadius: 15,
+    borderBottomColor: "gray",
+    borderBottomWidth: 1,
+    borderBottomLeftRadius: 10,
+    borderBottomRightRadius: 10,
   },
   card: {
-    width: "90%",
+    width: "75%",
   },
   containerCard: {
     alignItems: "center",

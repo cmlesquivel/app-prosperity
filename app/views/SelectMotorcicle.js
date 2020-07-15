@@ -5,8 +5,8 @@ import { AppLoading } from "expo";
 import * as Font from "expo-font";
 import { MyHeader } from "../sections/Header";
 import { CardMotorcicle } from "../sections/components/CardMotorcicle";
-import { fetchData } from "../sections/storage/actions/actionsMotorcicle";
 import { connect } from "react-redux";
+import { fetchDataMotorcicle } from "../sections/storage/actions/actionsProfile";
 
 let customFonts = {
   "Poppins-Medium": require("../../assets/fonts/Poppins-Medium.ttf"),
@@ -25,7 +25,7 @@ class SelectMotorcicle extends React.Component {
 
   componentDidMount() {
     this._loadFontsAsync();
-    // this.props.fetchData();
+    this.props.fetchDataMotorcicle();
   }
 
   saludo = () => {
@@ -37,6 +37,7 @@ class SelectMotorcicle extends React.Component {
   };
 
   render() {
+    console.log(this.props.profile);
     if (this.state.fontsLoaded) {
       return (
         <Container>
@@ -49,24 +50,24 @@ class SelectMotorcicle extends React.Component {
           </View>
 
           <FlatList
-            data={this.props.motorcicles.data.motorCicles}
+            data={this.props.motorcicles}
             renderItem={({ item }) => (
               <CardMotorcicle
                 referencia={item.referencia}
                 motor={item.motor}
-                precio={item.precio}
+                precio={item.precio.toString()}
                 marcaMotor={item.marcaMotor}
                 cilindrada={item.cilindrada}
                 picture={item.picture}
                 action={() => {
                   this.props.navigation.navigate("Worked", {
                     priceCreditMotorcicle: item.precio,
-                    idMotorcicle: item.id,
+                    idMotorcicle: item._id,
                   });
                 }}
               />
             )}
-            keyExtractor={(item) => item.id}
+            keyExtractor={(item) => item._id}
           />
         </Container>
       );
@@ -89,13 +90,15 @@ const styles = StyleSheet.create({
 
 function mapStateToProps(state) {
   return {
-    motorcicles: state.motorcicleReducer,
+    // motorcicles: state.motorcicleReducer,
+    motorcicles: state.profileReducer.data.motorcicles,
+    profile: state.profileReducer,
   };
 }
 
 function mapDispatchToProps(dispatch) {
   return {
-    fetchData: () => dispatch(fetchData()),
+    fetchDataMotorcicle: () => dispatch(fetchDataMotorcicle()),
   };
 }
 

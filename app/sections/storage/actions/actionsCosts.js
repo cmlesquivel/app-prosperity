@@ -3,7 +3,7 @@ import {
   FECHING_DATA_SUCCESS,
   FECHING_DATA_FIALURE,
 } from "./types";
-import getDataApi from "../../api/apiCosts";
+import getDataApi from "../../api/getDataApp";
 
 export const getData = () => ({
   type: FECHING_DATA,

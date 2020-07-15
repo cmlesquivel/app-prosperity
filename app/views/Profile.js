@@ -12,10 +12,7 @@ import * as Font from "expo-font";
 import { MyHeader } from "../sections/Header.js";
 import { MyButton } from "../sections/components/myButton";
 import { connect } from "react-redux";
-import {
-  fetchData,
-  updateUser,
-} from "../sections/storage/actions/actionsProfile";
+import { fetchUpdateUser } from "../sections/storage/actions/actionsProfile";
 
 let customFonts = {
   "Poppins-Medium": require("../../assets/fonts/Poppins-Medium.ttf"),
@@ -29,6 +26,10 @@ class Profile extends React.Component {
     document: this.props.profile.data.document,
     phone: this.props.profile.data.phone,
     email: this.props.profile.data.email,
+    // name: "1a",
+    // document: 123,
+    // phone: 22,
+    // email: "juan@SpeechGrammarList.com",
     // language: "",
   };
 
@@ -44,6 +45,7 @@ class Profile extends React.Component {
 
   backView = () => {
     this.props.navigation.goBack();
+    // this.props.fetchData(this.state.name);
   };
 
   updateProfile = () => {
@@ -54,17 +56,23 @@ class Profile extends React.Component {
     } else if (!this.state.phone) {
       Alert.alert("Ingrese por favor su Teléfono");
     } else {
-      this.props.updateUser(
+      this.props.fetchUpdateUser(
         this.state.name,
         this.state.document,
-        this.state.phone
+        this.state.phone,
+        this.props.profile.data._id,
+        this.state.email
       );
+      // console.log(this.state.email);
 
       this.props.navigation.navigate("SelectProfile");
     }
   };
 
   render() {
+    console.log("****");
+    console.log(this.props.profile);
+    console.log("****");
     if (this.state.fontsLoaded) {
       return (
         <View style={styles.container}>
@@ -194,10 +202,9 @@ function mapStateToProps(state) {
 
 function mapDispatchToProps(dispatch) {
   return {
-    updateUser: (name, document, phone) =>
-      dispatch(updateUser(name, document, phone)),
-    fetchData: () => dispatch(fetchData()),
-    // changeLanguage: (language) => dispatch(changeLanguage(language)),
+    fetchUpdateUser: (name, document, phone, id_user, email) =>
+      dispatch(fetchUpdateUser(name, document, phone, id_user, email)),
+    fetchData: (id) => dispatch(fetchData(id)),
   };
 }
 

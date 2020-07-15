@@ -25,7 +25,14 @@ export class CardInvestment extends React.Component {
   }
 
   render() {
-    const { date, amount, numberDays, profitability, balance } = this.props;
+    const {
+      date,
+      amount,
+      numberDays,
+      profitability,
+      balance,
+      active,
+    } = this.props;
 
     let profitabilityReal = (profitability * 100).toFixed(1);
 
@@ -34,7 +41,7 @@ export class CardInvestment extends React.Component {
     let balanceFormatPesos = toFormatterPeso(balance);
     let amountFormatPesos = toFormatterPeso(amount);
 
-    if (this.state.fontsLoaded) {
+    if (this.state.fontsLoaded && active) {
       return (
         <View style={styles.containerCard}>
           <View style={styles.card}>

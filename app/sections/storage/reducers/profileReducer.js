@@ -5,9 +5,22 @@ import {
   FECHING_DATA_SUCCESS,
   CHANGE_LANGUAGE,
   UPDATE_USER,
+  AUTHENTICATE_SUCCESS,
+  PROFILE_SUCCESS,
+  INVESTMENT_SUCCESS,
+  BALANCE_TOTAL_SUCCESS,
+  FECHING_DATA_PROFILE_SUCCESS,
+  FECHING_DATA_APP_SUCCESS,
+  FECHING_MOTORCICLES_SUCCESS,
+  SET_MESSAGE_REGISTER,
+  IS_RAPPI_TENDERO_SUCCESS,
+  PROFILE_RAPPI_TENDERO_SUCCESS,
+  GET_DATA_CREDIT_SUCCESS,
+  PAYMENT_SUCCESS,
+  PAGO_TOTAL_SUCCESS,
 } from "../actions/types";
 
-const initialState = {
+const initialState2 = {
   isFetching: false,
   error: false,
   data: {
@@ -72,7 +85,7 @@ const initialState = {
   },
 };
 
-const initialState2 = {
+const initialState = {
   data: [],
   isFetching: false,
   error: false,
@@ -96,7 +109,94 @@ const reducerProfile = (state = initialState, action) => {
         isFetching: true,
       };
 
-    case FECHING_DATA_SUCCESS:
+    case FECHING_DATA_PROFILE_SUCCESS:
+      return {
+        ...state,
+        data: action.data,
+        isFetching: false,
+      };
+
+    case INVESTMENT_SUCCESS:
+      return {
+        ...state,
+        data: Object.assign({}, state.data, {
+          investments: action.data,
+        }),
+      };
+
+    case PAYMENT_SUCCESS:
+      return {
+        ...state,
+        data: Object.assign({}, state.data, {
+          payment_credit: action.data,
+        }),
+      };
+
+    case GET_DATA_CREDIT_SUCCESS:
+      // console.log(action.data);
+      return {
+        ...state,
+        data: Object.assign({}, state.data, {
+          data_credit: action.data,
+        }),
+      };
+
+    case PROFILE_RAPPI_TENDERO_SUCCESS:
+      return {
+        ...state,
+        data: Object.assign({}, state.data, {
+          profile_rappi_tendero: action.data,
+        }),
+      };
+
+    case FECHING_DATA_APP_SUCCESS:
+      return {
+        ...state,
+        data: Object.assign({}, state.data, {
+          dataApp: action.data,
+        }),
+      };
+
+    case FECHING_MOTORCICLES_SUCCESS:
+      return {
+        ...state,
+        data: Object.assign({}, state.data, {
+          motorcicles: action.data,
+        }),
+      };
+
+    case SET_MESSAGE_REGISTER:
+      return {
+        ...state,
+        data: Object.assign({}, state.data, {
+          messageRegister: action.data,
+        }),
+      };
+
+    case BALANCE_TOTAL_SUCCESS:
+      return {
+        ...state,
+        data: Object.assign({}, state.data, {
+          balanceTotal: action.data,
+        }),
+      };
+
+    case PAGO_TOTAL_SUCCESS:
+      return {
+        ...state,
+        data: Object.assign({}, state.data, {
+          pagoTotal: action.data,
+        }),
+      };
+
+    case AUTHENTICATE_SUCCESS:
+      return {
+        ...state,
+        data: action.data,
+        isFetching: false,
+      };
+
+    case PROFILE_SUCCESS:
       return {
         ...state,
         data: action.data,
@@ -125,6 +225,14 @@ const reducerProfile = (state = initialState, action) => {
           name: action.name,
           document: parseInt(action.document),
           phone: parseInt(action.phone),
+        }),
+      };
+
+    case IS_RAPPI_TENDERO_SUCCESS:
+      return {
+        ...state,
+        data: Object.assign({}, state.data, {
+          user_type: action.data,
         }),
       };
   }

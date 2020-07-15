@@ -32,6 +32,7 @@ export default class Home extends React.Component {
 
   goRegister = () => {
     this.props.navigation.navigate("Register");
+    // this.props.navigation.navigate("SelectProfile");
   };
 
   goLogin = () => {

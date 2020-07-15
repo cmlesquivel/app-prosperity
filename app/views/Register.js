@@ -1,11 +1,18 @@
 import React from "react";
-import { StyleSheet, View, TextInput, Text, ScrollView } from "react-native";
+import {
+  StyleSheet,
+  View,
+  TextInput,
+  Text,
+  ScrollView,
+  Alert,
+} from "react-native";
 import { AppLoading } from "expo";
 import * as Font from "expo-font";
 import { MyHeader } from "../sections/Header.js";
 import { MyButton } from "../sections/components/myButton";
 import { connect } from "react-redux";
-import { createNewUser } from "../sections/storage/actions/actionsProfile";
+import { fetchNewUser } from "../sections/storage/actions/actionsProfile";
 
 let customFonts = {
   "Poppins-Medium": require("../../assets/fonts/Poppins-Medium.ttf"),
@@ -20,6 +27,7 @@ class Register extends React.Component {
     phone: "",
     email: "",
     password: "",
+    confirmpassword: "",
   };
 
   async _loadFontsAsync() {
@@ -35,7 +43,40 @@ class Register extends React.Component {
     this.props.navigation.goBack();
   };
 
+  createNewUser = () => {
+    if (!this.state.name) {
+      console.log("Ingrese por favor su nombre");
+    } else if (!this.state.document) {
+      console.log("Ingrese por favor su Cédula");
+    } else if (!this.state.phone) {
+      console.log("Ingrese por favor su teléfono");
+    } else if (!this.state.email) {
+      console.log("Ingrese por favor su correo");
+    } else if (!this.state.password) {
+      console.log("Ingrese por favor su contraseña");
+    } else if (this.state.password != this.state.confirmpassword) {
+      console.log("Las contraseñas no coinciden");
+    } else {
+      this.props.createNewUser(
+        this.state.name,
+        this.state.document,
+        this.state.phone,
+        this.state.email,
+        this.state.password
+      );
+      setTimeout(() => {
+        if (this.props.profile.data.email === this.state.email) {
+          Alert.alert("Registrado!!");
+          this.props.navigation.navigate("SelectProfile");
+        } else {
+          Alert.alert("Error al registrar el usuario");
+        }
+      }, 300);
+    }
+  };
+
   render() {
+    console.log(this.props.profile.data);
     if (this.state.fontsLoaded) {
       return (
         <View style={styles.container}>
@@ -89,11 +130,6 @@ class Register extends React.Component {
 
                 <View style={styles.containerInput}>
                   <Text style={styles.label}>Contraseña</Text>
-                  <TextInput secureTextEntry style={styles.input} />
-                </View>
-
-                <View style={styles.containerInput}>
-                  <Text style={styles.label}>Repite contraseña</Text>
                   <TextInput
                     secureTextEntry
                     style={styles.input}
@@ -102,17 +138,23 @@ class Register extends React.Component {
                   />
                 </View>
 
+                <View style={styles.containerInput}>
+                  <Text style={styles.label}>Repite contraseña</Text>
+                  <TextInput
+                    secureTextEntry
+                    style={styles.input}
+                    value={this.state.confirmpassword}
+                    onChangeText={(confirmpassword) =>
+                      this.setState({ confirmpassword })
+                    }
+                  />
+                </View>
+
                 <View style={styles.containerButton}>
                   <MyButton
                     action={() => {
-                      this.props.createNewUser(
-                        this.state.name,
-                        this.state.document,
-                        this.state.phone,
-                        this.state.email,
-                        this.state.password
-                      );
-                      this.props.navigation.navigate("SelectProfile");
+                      this.createNewUser();
+                      // this.props.navigation.navigate("SelectProfile");
                     }}
                     message={"Crear cuenta"}
                   />
@@ -185,14 +227,14 @@ const styles = StyleSheet.create({
 
 function mapStateToProps(state) {
   return {
-    profile: state,
+    profile: state.profileReducer,
   };
 }
 
 function mapDispatchToProps(dispatch) {
   return {
     createNewUser: (name, document, phone, email, password) =>
-      dispatch(createNewUser(name, document, phone, email, password)),
+      dispatch(fetchNewUser(name, document, phone, email, password)),
   };
 }
 

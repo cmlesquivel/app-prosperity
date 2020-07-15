@@ -3,7 +3,7 @@ import {
   FECHING_DATA_SUCCESS,
   FECHING_DATA_FIALURE,
 } from "./types";
-import getDataApiMotorcicles from "../../api/apiMotorcicle";
+import getDataApi from "../../api/getDataApp";
 
 export const getData = () => ({
   type: FECHING_DATA,
@@ -18,10 +18,10 @@ export const getDataFailure = () => ({
   type: FECHING_DATA_FIALURE,
 });
 
-export const fetchDataMotorcicle = () => {
+export const fetchDataApp = () => {
   return (dispatch) => {
-    dispatch(getData());
-    getDataApiMotorcicles()
+    // dispatch(getData());
+    getDataApi()
       .then(([response, json]) => {
         console.log(json.data);
         dispatch(getDataSuccess(json.data));

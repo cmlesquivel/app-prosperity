@@ -1,7 +1,7 @@
 import { URL } from "./hosting";
 
 export default () => {
-  return fetch(URL + "getallmotorcicles").then((response) =>
+  return fetch(URL + "getdatapp").then((response) =>
     Promise.all([response, response.json()])
   );
 };

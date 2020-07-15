@@ -4,7 +4,7 @@ import {
   FECHING_DATA_SUCCESS,
 } from "../actions/types";
 
-const initialState = {
+const initialState1 = {
   isFetching: false,
   error: false,
   data: {
@@ -53,7 +53,7 @@ const initialState = {
   },
 };
 
-const initialState2 = {
+const initialState = {
   data: [],
   isFetching: false,
   error: false,

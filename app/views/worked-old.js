@@ -5,16 +5,9 @@ import { AppLoading } from "expo";
 import * as Font from "expo-font";
 import { MyHeader } from "../sections/Header.js";
 import { MyButton } from "../sections/components/myButton";
-import { toFormatterPeso, monthlyFees } from "../sections/functions";
-import RNPickerSelect from "react-native-picker-select";
+import { toFormatterPeso } from "../sections/functions";
 import { connect } from "react-redux";
-import {
-  fetchDataMotorcicle,
-  fetchTokenRappiTendero,
-  fetchAddCredit,
-  getDataCreditSuccess,
-  fetchGetCreditRappiTendero,
-} from "../sections/storage/actions/actionsProfile";
+import { fetchData } from "../sections/storage/actions/actionsCosts";
 
 let customFonts = {
   "Poppins-Medium": require("../../assets/fonts/Poppins-Medium.ttf"),
@@ -33,12 +26,6 @@ class Worked extends React.Component {
       answer: "",
       fontsLoaded: false,
       initialFeeMotorcicle: 0,
-      payMonthly: "",
-      plazo: "",
-      interes: 0.020825,
-      activeCredit: false,
-      stateCredit: "",
-      id_pase: "",
     };
   }
 
@@ -49,16 +36,17 @@ class Worked extends React.Component {
 
   componentDidMount() {
     this._loadFontsAsync();
-    // this.props.fetchIsRappiTendero(this.props.profile.email);
+    // this.props.fetchData();
   }
 
   componentWillReceiveProps(nextProps) {
     let priceMotorcicleNew =
       nextProps.navigation.state.params.priceCreditMotorcicle;
+
     this.setState({
       priceMotorcicle: parseInt(priceMotorcicleNew),
       selectCreditMotorcicle: true,
-      initialFeeMotorcicle: this.props.costs[2].value,
+      initialFeeMotorcicle: this.props.costs.data.initialFeeMotorcicle.value,
     });
   }
 
@@ -80,66 +68,17 @@ class Worked extends React.Component {
         })
       : this.setState({
           selectCreditPase: true,
-          pricePase: this.props.costs[0].value,
+          pricePase: this.props.costs.data.pases.value,
         });
   };
 
-  requestCredit = (totalCredit, idMotorcicle) => {
-    if (this.state.priceMotorcicle == 0) {
-      console.log("Selecciona por favor la motocicleta a financiar ");
-    } else if (!this.state.plazo) {
-      console.log("Selecciona el N° de cuotas ");
-    } else {
-      if (this.props.profile.user_type === "courier") {
-        console.log("Eres un rappi-tendero");
-        this.props.fetchTokenRappiTendero(this.props.profile.email);
-        setTimeout(() => {
-          if (
-            parseInt(this.props.profile.profile_rappi_tendero.identification) !=
-            this.props.profile.document
-          ) {
-            Alert.alert("Verifica tu número de identificación");
-          } else if (!this.props.profile.profile_rappi_tendero.active) {
-            Alert.alert("No te encuentras activo como Rappi-Tendero");
-          } else if (
-            parseInt(this.props.profile.profile_rappi_tendero.average) < 4
-          ) {
-            Alert.alert("Mejora tu promedio para acceder a un crédito");
-          } else {
-            Alert.alert("Tu credito fue aprobado!!");
-            this.props.fetchAddCredit(
-              this.props.profile._id,
-              idMotorcicle,
-              this.props.costs[0]._id,
-              totalCredit,
-              this.state.plazo,
-              this.state.interes,
-              true,
-              this.state.payMonthly,
-              this.state.priceMotorcicle,
-              this.state.pricePase,
-              "aprobado",
-              this.props.profile.email
-            );
-            // this.props.fetchGetCreditRappiTendero(this.props.profile.email);
-            // this.props.navigation.navigate("SelectProfile");
-
-            // setTimeout(() => {
-            this.props.navigation.navigate("SelectProfile");
-            this.props.getDataCreditSuccess([{ active: true }]);
-            // }, 500);
-          }
-        }, 3500);
-      } else {
-        Alert.alert("Aún no haces parte del selecto equipo de Rappi-Tenderos");
-      }
-    }
-    // Alert.alert(
-    //   "Mensaje",
-    //   "Credito aprobado",
-    //   [{ text: "OK", onPress: () => console.log("OK Pressed") }],
-    //   { cancelable: false }
-    // );
+  requestCredit = () => {
+    Alert.alert(
+      "Mensaje",
+      "Credito aprobado",
+      [{ text: "OK", onPress: () => console.log("OK Pressed") }],
+      { cancelable: false }
+    );
   };
 
   goWorked = () => {
@@ -155,44 +94,8 @@ class Worked extends React.Component {
   };
 
   render() {
-    // console.log(this.props.profile);
-    // console.log(this.props.profile);
-    // console.log(this.props.profile.data_credit[0].active);
-    // this.props.profile.data.user_type
-    const placeholder = {
-      label: "n.º cuotas",
-      value: "",
-      color: "red",
-    };
-
-    const plazos = [
-      {
-        label: "6 cuotas",
-        value: "6",
-      },
-      {
-        label: "12 cuotas",
-        value: "12",
-      },
-      {
-        label: "18 cuotas",
-        value: "18",
-      },
-      {
-        label: "24 cuotas",
-        value: "24",
-      },
-      {
-        label: "36 cuotas",
-        value: "36",
-      },
-      {
-        label: "48 cuotas",
-        value: "48",
-      },
-    ];
-
     const idMotorcicle = this.props.navigation.getParam("idMotorcicle", "");
+    console.log(this.props.costs);
 
     let totalCredit =
       this.state.pricePase +
@@ -210,7 +113,7 @@ class Worked extends React.Component {
 
           <View style={styles.containerQuestion}>
             <Text style={styles.textQuestion}>
-              ¿Elige tu motocicleta a financiar?
+              ¿Necesitas un prestamo para?
             </Text>
           </View>
 
@@ -307,67 +210,10 @@ class Worked extends React.Component {
               </View>
             </View>
           </View>
-
-          <View style={styles.flexCenter}>
-            <View style={styles.containerOption}>
-              <View style={styles.containerList}>
-                <ListItem style={styles.listItem}>
-                  <CheckBox checked={true} color="transparent" disabled />
-                  <Body>
-                    <Text style={styles.textProduct}>N.° de cuotas</Text>
-                  </Body>
-                </ListItem>
-              </View>
-              <View style={styles.containerText}>
-                <View style={styles.containerSelector}>
-                  <RNPickerSelect
-                    placeholder={placeholder}
-                    onValueChange={(value) => {
-                      let payMonthly = monthlyFees(
-                        totalCredit,
-                        this.state.interes,
-                        value
-                      );
-                      this.setState({
-                        plazo: value,
-                        payMonthly: payMonthly,
-                      });
-                      console.log(this.state.plazo);
-                    }}
-                    items={plazos}
-                  />
-                </View>
-              </View>
-            </View>
-          </View>
-
-          <View style={styles.flexCenter}>
-            <View style={styles.containerOption}>
-              <View style={styles.containerList}>
-                <ListItem style={styles.listItem}>
-                  <CheckBox checked={true} color="transparent" disabled />
-                  <Body>
-                    <Text style={styles.textProductTotal}>Pagos mensuales</Text>
-                  </Body>
-                </ListItem>
-              </View>
-              <View style={styles.containerText}>
-                <View style={styles.rectangleGray}>
-                  <Text style={styles.textSign}></Text>
-                  <Text style={styles.textTotal}>
-                    {toFormatterPeso(this.state.payMonthly)}
-                  </Text>
-                </View>
-              </View>
-            </View>
-          </View>
-
           <View style={styles.containerButton}>
             <MyButton
               message="Solicitar Prestamo"
-              action={() => {
-                this.requestCredit(totalCredit, idMotorcicle);
-              }}
+              action={this.requestCredit}
             />
           </View>
 
@@ -464,68 +310,17 @@ const styles = StyleSheet.create({
     fontFamily: "Poppins-Medium",
     color: "#f85b51",
   },
-  containerSelector: {
-    width: "80%",
-  },
-  selector: {
-    fontSize: 16,
-    paddingHorizontal: 10,
-    paddingVertical: 8,
-    borderWidth: 0.5,
-    borderColor: "purple",
-    borderRadius: 8,
-    color: "black",
-    paddingRight: 30,
-  },
 });
 
 function mapStateToProps(state) {
   return {
-    costs: state.profileReducer.data.dataApp,
-    profile: state.profileReducer.data,
+    costs: state,
   };
 }
 
 function mapDispatchToProps(dispatch) {
   return {
-    fetchGetCreditRappiTendero: (email) =>
-      dispatch(fetchGetCreditRappiTendero(email)),
-    // getDataCreditSuccess
-
-    getDataCreditSuccess: (state) => dispatch(getDataCreditSuccess(state)),
-
-    fetchDataMotorcicle: () => dispatch(fetchDataMotorcicle()),
-    fetchTokenRappiTendero: (email) => dispatch(fetchTokenRappiTendero(email)),
-    fetchAddCredit: (
-      id_user,
-      id_motorcicle,
-      id_pase,
-      amount,
-      numberMonths,
-      interest,
-      active,
-      monthlyPayment,
-      priceMotorcicle,
-      pricePase,
-      stateCredit,
-      email
-    ) =>
-      dispatch(
-        fetchAddCredit(
-          id_user,
-          id_motorcicle,
-          id_pase,
-          amount,
-          numberMonths,
-          interest,
-          active,
-          monthlyPayment,
-          priceMotorcicle,
-          pricePase,
-          stateCredit,
-          email
-        )
-      ),
+    fetchData: () => dispatch(fetchData()),
   };
 }
 

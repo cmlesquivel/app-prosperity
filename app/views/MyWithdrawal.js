@@ -39,18 +39,19 @@ class MyWithdrawals extends React.Component {
           </View>
 
           <FlatList
-            data={this.props.profile.data.removeMoney}
+            data={this.props.profile.data.investments}
             renderItem={({ item }) => (
               <CardWithdrawal
-                dateStart={item.dateStart}
-                dateEnd={item.dateEnd}
+                dateStart={item.createdAt}
+                dateEnd={item.updatedAt}
                 amount={item.amount}
                 numberDays={item.numberDays}
                 profitability={item.profitability}
                 balance={item.balance}
+                active={item.active}
               />
             )}
-            keyExtractor={(item) => item.id}
+            keyExtractor={(item) => item._id}
           />
 
           <View></View>
