@@ -98,4 +98,4 @@ There are plenty of features that we would love to implement into RappiProsperit
 
 ## Credits
 
-Work is owned and maintained by Camilo Esquivel [Twitter](https://twitter.com/cmlesquivel) [Linkedin](www.linkedin.com/in/juan-esquivel).
+Work is owned and maintained by Camilo Esquivel [Twitter](https://twitter.com/cmlesquivel) and [Linkedin](https://www.linkedin.com/in/juan-esquivel).
