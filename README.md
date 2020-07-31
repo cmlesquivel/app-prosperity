@@ -13,6 +13,7 @@ This project was developed under the advice of the [Rappi](https://www.rappi.com
 
 - [About](#about)
 - [Screenshots](#screenshots)
+- [Installation](#installation)
 - [Getting Started](#getting)
 - [Built With](#built)
 - [Future](#future)
@@ -60,6 +61,11 @@ Screen apply for motorcycle credit, select motorcycle and credit payment
 <img width=25% src="https://github.com/cmlesquivel/app-prosperity/blob/screenshots/vlcsnap-2020-07-23-23h50m50s476.png">
 <img width=25% src="https://github.com/cmlesquivel/app-prosperity/blob/screenshots/vlcsnap-2020-07-23-23h52m04s675.png">
 </p>
+
+## Installation
+
+Clone this repository: git clone "https://github.com/cmlesquivel/app-prosperity.git"
+Access AppProsperity directory: cd app-prosperity
 
 ## Getting Started
 
