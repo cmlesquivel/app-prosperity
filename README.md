@@ -64,8 +64,8 @@ Screen apply for motorcycle credit, select motorcycle and credit payment
 
 ## Installation
 
-Clone this repository: git clone "https://github.com/cmlesquivel/app-prosperity.git"
-Access AppProsperity directory: cd app-prosperity
+- Clone this repository: git clone "https://github.com/cmlesquivel/app-prosperity.git"
+- Access AppProsperity directory: cd app-prosperity
 
 ## Getting Started
 
