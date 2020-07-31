@@ -96,6 +96,6 @@ There are plenty of features that we would love to implement into RappiProsperit
 - [Holberton School](https://www.holbertonschool.com/) (Staff and Students)
 - Rappy and his team of engineers [Tatiana Rodríguez](https://github.com/tatarodriguez11) and [Josue Osuna](https://github.com/JosueMOsunaG12) for their guidance in the development of this project.
 
-## Authors
+## Author
 
 Camilo Esquivel [Twitter](https://twitter.com/cmlesquivel), [Linkedin](https://www.linkedin.com/in/juan-esquivel).
